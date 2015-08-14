@@ -2,13 +2,18 @@
 
 path =			require 'path'
 commander =		require 'commander'
+Q =				require 'q'
+inquirer =		require 'inquirer'
 
+vbb =			require 'vbb'
 
 
 
 
 
 pkg =			require path.join __dirname, '../package.json'
+
+client = vbb '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
 
 program = commander
 .version pkg.version
@@ -17,3 +22,36 @@ program = commander
 .option '-r, --results [n]', 'The number of routes.', parseInt
 .option '-p, --products [list]', 'Allowed transportation types.', (val) -> val.split ','
 .parse process.argv
+
+
+
+
+
+autocomplete = () ->
+	return (input) ->
+		if not input
+			deferred = Q.defer()
+			deferred.resolve []
+			return deferred.promise
+		return client.autocomplete input, 5
+		.then (results) ->
+			choices = []
+			for result in results
+				choices.push
+					name:	result.name
+					value:	result.id
+			return choices
+
+
+
+queryStation = (program, param, question) ->
+	return (cb) ->
+		if program[param] then return cb()
+		inquirer.prompt [{
+			type:		'autocomplete',
+			name:		param,
+			message:	question,
+			choices:	autocomplete
+		}], (answers) ->
+			program[param] = answers[param]
+			return cb()
