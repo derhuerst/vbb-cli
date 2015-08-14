@@ -1,7 +1,19 @@
 #!/usr/bin/env coffee
 
+path =			require 'path'
+commander =		require 'commander'
 
 
 
 
-console.log 'todo'
+
+
+pkg =			require path.join __dirname, '../package.json'
+
+program = commander
+.version pkg.version
+.option '-f, --from [station]', 'Where the routes shall begin.', parseInt
+.option '-t, --to [station]', 'Where the routes shall end.', parseInt
+.option '-r, --results [n]', 'The number of routes.', parseInt
+.option '-p, --products [list]', 'Allowed transportation types.', (val) -> val.split ','
+.parse process.argv
