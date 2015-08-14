@@ -1,0 +1,34 @@
+{
+	"name": "vbb-cli",
+	"description": "A CLI frontend for Berlin & Brandenburg public transport.",
+	"version": "0.1.0",
+	"keywords": [
+		"vbb",
+		"cli",
+		"berlin",
+		"brandenburg",
+		"public transport",
+		"api",
+		"open data",
+		"hafas",
+		"fahrinfo",
+		"coffeescript",
+		"javascript"
+	],
+	"author": {
+		"name": "Jannis R",
+		"email": "mail@jannisr.de",
+		"url": "http://jannisr.de"
+	},
+	"homepage": "https://github.com/derhuerst/vbb-cli",
+	"repository": "git://github.com/derhuerst/vbb-cli.git",
+	"bugs": "https://github.com/derhuerst/vbb-cli/issues",
+	"license": "MIT",
+	"dependencies": {
+		"coffee-script":		"^1.9.3",
+		"vbb":					"^0.3.1"
+	},
+	"directories": {
+		"bin": "./bin"
+	}
+}

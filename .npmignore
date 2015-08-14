@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+
+.nvm-version
+node_modules
+npm-debug.log
+
+.editorconfig
+.gitignore
+vbb-cli.sublime-project
+vbb-cli.sublime-workspace

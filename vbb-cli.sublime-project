@@ -1,0 +1,27 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"*.sublime-workspace"
+			],
+			"folder_exclude_patterns":
+			[
+				"bin",
+				"node_modules"
+			],
+			"name": "vbb-cli",
+			"path": "."
+		},
+		{
+			"name": "bin",
+			"path": "bin"
+		}
+	],
+	"settings":
+	{
+		"tab_size": 4,
+		"translate_tabs_to_spaces": false
+	}
+}
