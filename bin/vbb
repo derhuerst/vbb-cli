@@ -55,3 +55,63 @@ queryStation = (program, param, question) ->
 		}], (answers) ->
 			program[param] = answers[param]
 			return cb()
+
+
+
+queryResults = (program) ->
+	return (cb) ->
+		if program.results then return cb()
+		inquirer.prompt [{
+			type:		'input',
+			name:		'results',
+			message:	'How many results?',
+			default:	'5'
+			validate:	(i) -> /\d+/.test i
+		}], (answers) ->
+			program.results = parseInt answers.results
+			return cb()
+
+
+
+queryProducts = (program) ->
+	return (cb) ->
+		if program.products then return cb()
+		inquirer.prompt [{
+			type:		'checkbox',
+			name:		'products',
+			message:	'Which products do you want to use?',
+			choices:	[
+				{
+					name:		'S-Bahn (suburban)'
+					value:		'suburban'
+					checked:	true
+				}, {
+					name:		'U-Bahn (subway)'
+					value:		'subway'
+					checked:	true
+				}, {
+					name:		'Tram (cable car)'
+					value:		'tram'
+					checked:	true
+				}, {
+					name:		'Bus'
+					value:		'bus'
+					checked:	true
+				}, {
+					name:		'Ferry'
+					value:		'ferry'
+					checked:	true
+				}, {
+					name:		'RE/RB (regional trains)'
+					value:		'regional'
+					checked:	true
+				}, {
+					name:		'ICE/IC/EC (express trains)'
+					value:		'express'
+					checked:	false
+				}
+			]
+		}], (answers) ->
+			console.log answers.products
+			program.products = answers.products
+			return cb()
