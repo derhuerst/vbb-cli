@@ -4,6 +4,7 @@ path =			require 'path'
 commander =		require 'commander'
 Q =				require 'q'
 inquirer =		require 'inquirer'
+async =			require 'async'
 
 vbb =			require 'vbb'
 
@@ -115,3 +116,23 @@ queryProducts = (program) ->
 			console.log answers.products
 			program.products = answers.products
 			return cb()
+
+
+
+
+
+async.waterfall [
+	queryStation program, 'from', 'Where are you?'
+	queryStation program, 'to', 'Where do you want to go?'
+	queryResults program
+	queryProducts program
+], () ->
+	params =
+		from:		program.from
+		to:			program.to
+		results:	program.results
+		products:	{}
+	for product in program.products
+		params.products[product] = true
+	client.routes params
+	.then console.log
