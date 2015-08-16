@@ -9,6 +9,7 @@
 			"folder_exclude_patterns":
 			[
 				"bin",
+				"util",
 				"node_modules"
 			],
 			"name": "vbb-cli",
@@ -17,6 +18,10 @@
 		{
 			"name": "bin",
 			"path": "bin"
+		},
+		{
+			"name": "util",
+			"path": "util"
 		}
 	],
 	"settings":

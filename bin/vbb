@@ -5,16 +5,21 @@ commander =		require 'commander'
 Q =				require 'q'
 inquirer =		require 'inquirer'
 async =			require 'async'
+c256 =			require 'colors-256'
+chalk =			require 'chalk'
+Duration =		require 'duration-js'
 
 vbb =			require 'vbb'
+util =			require 'vbb-util'
+search =		require '../util/search' # todo: does `..` work?
+routes =		require '../util/routes' # todo: does `..` work?
+route =			require '../util/route' # todo: does `..` work?
 
 
 
 
 
 pkg =			require path.join __dirname, '../package.json'
-
-client = vbb '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
 
 program = commander
 .version pkg.version
@@ -24,115 +29,31 @@ program = commander
 .option '-p, --products [list]', 'Allowed transportation types.', (val) -> val.split ','
 .parse process.argv
 
-
-
-
-
-autocomplete = () ->
-	return (input) ->
-		if not input
-			deferred = Q.defer()
-			deferred.resolve []
-			return deferred.promise
-		return client.autocomplete input, 5
-		.then (results) ->
-			choices = []
-			for result in results
-				choices.push
-					name:	result.name
-					value:	result.id
-			return choices
-
-
-
-queryStation = (program, param, question) ->
-	return (cb) ->
-		if program[param] then return cb()
-		inquirer.prompt [{
-			type:		'autocomplete',
-			name:		param,
-			message:	question,
-			choices:	autocomplete
-		}], (answers) ->
-			program[param] = answers[param]
-			return cb()
-
-
-
-queryResults = (program) ->
-	return (cb) ->
-		if program.results then return cb()
-		inquirer.prompt [{
-			type:		'input',
-			name:		'results',
-			message:	'How many results?',
-			default:	'5'
-			validate:	(i) -> /\d+/.test i
-		}], (answers) ->
-			program.results = parseInt answers.results
-			return cb()
-
-
-
-queryProducts = (program) ->
-	return (cb) ->
-		if program.products then return cb()
-		inquirer.prompt [{
-			type:		'checkbox',
-			name:		'products',
-			message:	'Which products do you want to use?',
-			choices:	[
-				{
-					name:		'S-Bahn (suburban)'
-					value:		'suburban'
-					checked:	true
-				}, {
-					name:		'U-Bahn (subway)'
-					value:		'subway'
-					checked:	true
-				}, {
-					name:		'Tram (cable car)'
-					value:		'tram'
-					checked:	true
-				}, {
-					name:		'Bus'
-					value:		'bus'
-					checked:	true
-				}, {
-					name:		'Ferry'
-					value:		'ferry'
-					checked:	true
-				}, {
-					name:		'RE/RB (regional trains)'
-					value:		'regional'
-					checked:	true
-				}, {
-					name:		'ICE/IC/EC (express trains)'
-					value:		'express'
-					checked:	false
-				}
-			]
-		}], (answers) ->
-			console.log answers.products
-			program.products = answers.products
-			return cb()
+program.client = vbb '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
 
 
 
 
 
-async.waterfall [
-	queryStation program, 'from', 'Where are you?'
-	queryStation program, 'to', 'Where do you want to go?'
-	queryResults program
-	queryProducts program
-], () ->
-	params =
-		from:		program.from
-		to:			program.to
-		results:	program.results
-		products:	{}
-	for product in program.products
-		params.products[product] = true
-	client.routes params
-	.then console.log
+search program
+.then routes
+.then (results) ->
+	console.log results[0]
+# .then routes
+# .then route
+
+# async.waterfall [
+# 	queryStation program, 'from', 'Where are you?'
+# 	queryStation program, 'to', 'Where do you want to go?'
+# 	queryResults program
+# 	queryProducts program
+# ], () ->
+# 	params =
+# 		from:		program.from
+# 		to:			program.to
+# 		results:	program.results
+# 		products:	{}
+# 	for product in program.products
+# 		params.products[product] = true
+# 	client.routes params
+# 	.then renderRoutes
