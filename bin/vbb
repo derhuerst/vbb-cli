@@ -13,7 +13,6 @@ vbb =			require 'vbb'
 util =			require 'vbb-util'
 search =		require '../util/search' # todo: does `..` work?
 routes =		require '../util/routes' # todo: does `..` work?
-route =			require '../util/route' # todo: does `..` work?
 
 
 
@@ -37,23 +36,5 @@ program.client = vbb '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
 
 search program
 .then routes
-.then (results) ->
-	console.log results[0]
-# .then routes
-# .then route
-
-# async.waterfall [
-# 	queryStation program, 'from', 'Where are you?'
-# 	queryStation program, 'to', 'Where do you want to go?'
-# 	queryResults program
-# 	queryProducts program
-# ], () ->
-# 	params =
-# 		from:		program.from
-# 		to:			program.to
-# 		results:	program.results
-# 		products:	{}
-# 	for product in program.products
-# 		params.products[product] = true
-# 	client.routes params
-# 	.then renderRoutes
+.then (result) ->
+	console.log result

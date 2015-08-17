@@ -2,8 +2,10 @@
 
 Q =				require 'q'
 inquirer =		require 'inquirer'
-c256 =			require 'colors-256'
+c256 =			require 'ansi-256-colors'
+hexRgb =		require 'hex-rgb'
 chalk =			require 'chalk'
+Duration =		require 'duration-js'
 
 vbb =			require 'vbb'
 util =			require 'vbb-util'
@@ -23,14 +25,29 @@ query = (program) ->
 
 
 
+productSymbol = (type) ->
+	console.log 'productSymbol'
+	console.log util.products[part.type].color
+	console.log hexRgb util.products[part.type].color
+	bg = hexRgb util.products[part.type].color
+	console.log 'productSymbol'
+	return [
+		c256.fg.getRgb hexRgb 'ffffff'
+		c256.bg.getRgb bg[0], bg[1], bg[2]
+		util.products[type].short
+	].join ''
+
 routeName = (route) ->
 	start = route.parts[0].from.when
 	stop = route.parts[route.parts.length - 1].to.when
+
 	types = ''
 	for part in route.parts
-		if part.transport is 'public' then types += util.products[part.type].symbol
+		if part.transport is 'public' then types += productSymbol part.type
 		else types += util.routes.legs.types[part.transport].symbol
-		types += ' '
+		types += ' '   # fix weird unicode spacing error
+	console.log types
+
 	return [
 		[
 			('0' + start.getHours()).slice -2
@@ -45,15 +62,16 @@ routeName = (route) ->
 		types
 	].join ' '
 
+
+
 routes = (results) ->
-	deferred = Q.defer()
 	choices = []
-	for route, i in results
-		start = route.parts[0].from.when
-		stop = route.parts[route.parts.length - 1].to.when
+	for result in results
 		choices.push
-			name: routeName route
-			value:	route
+			name:	routeName result
+			value:	result
+
+	deferred = Q.defer()
 	inquirer.prompt [{
 		type:		'list',
 		name:		'route',
