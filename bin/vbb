@@ -38,3 +38,6 @@ search program
 .then routes
 .then (result) ->
 	console.log result
+.catch (err) ->
+	throw err
+	process.exit 1

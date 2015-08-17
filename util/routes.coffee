@@ -26,15 +26,18 @@ query = (program) ->
 
 
 productSymbol = (type) ->
-	console.log 'productSymbol'
-	console.log util.products[part.type].color
-	console.log hexRgb util.products[part.type].color
-	bg = hexRgb util.products[part.type].color
-	console.log 'productSymbol'
+	fg = hexRgb 'ffffff'   # todo: use a foreground that is readable on the background color
+	bg = hexRgb util.products[type].color
+	console.log fg, bg
+	console.log c256.fg.getRgb fg[0], fg[1], fg[2]
+	console.log c256.bg.getRgb bg[0], bg[1], bg[2]
+	console.log util.products[type].short
+	console.log c256.reset
 	return [
-		c256.fg.getRgb hexRgb 'ffffff'
+		c256.fg.getRgb fg[0], fg[1], fg[2]
 		c256.bg.getRgb bg[0], bg[1], bg[2]
 		util.products[type].short
+		c256.reset
 	].join ''
 
 routeName = (route) ->
@@ -80,8 +83,6 @@ routes = (results) ->
 	}], (answers) ->
 		deferred.resolve answers.route
 	return deferred.promise
-
-
 
 
 
