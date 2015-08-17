@@ -26,7 +26,8 @@
 	"license": "MIT",
 	"dependencies": {
 		"coffee-script":		"^1.9.3",
-		"vbb":					"^0.3.1"
+		"vbb":					"^0.3.1",
+		"vbb-util":				"^0.4.0"
 	},
 	"directories": {
 		"bin": "./bin"
