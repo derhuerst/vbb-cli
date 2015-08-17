@@ -1,35 +1,44 @@
 {
-	"name": "vbb-cli",
-	"description": "A CLI frontend for Berlin & Brandenburg public transport.",
-	"version": "0.1.0",
-	"keywords": [
-		"vbb",
-		"cli",
-		"berlin",
-		"brandenburg",
-		"public transport",
-		"api",
-		"open data",
-		"hafas",
-		"fahrinfo",
-		"coffeescript",
-		"javascript"
-	],
-	"author": {
-		"name": "Jannis R",
-		"email": "mail@jannisr.de",
-		"url": "http://jannisr.de"
-	},
-	"homepage": "https://github.com/derhuerst/vbb-cli",
-	"repository": "git://github.com/derhuerst/vbb-cli.git",
-	"bugs": "https://github.com/derhuerst/vbb-cli/issues",
-	"license": "MIT",
-	"dependencies": {
-		"coffee-script":		"^1.9.3",
-		"vbb":					"^0.3.1",
-		"vbb-util":				"^0.4.0"
-	},
-	"directories": {
-		"bin": "./bin"
-	}
+  "name": "vbb-cli",
+  "description": "A CLI frontend for Berlin & Brandenburg public transport.",
+  "version": "0.1.0",
+  "keywords": [
+    "vbb",
+    "cli",
+    "berlin",
+    "brandenburg",
+    "public transport",
+    "api",
+    "open data",
+    "hafas",
+    "fahrinfo",
+    "coffeescript",
+    "javascript"
+  ],
+  "author": {
+    "name": "Jannis R",
+    "email": "mail@jannisr.de",
+    "url": "http://jannisr.de"
+  },
+  "homepage": "https://github.com/derhuerst/vbb-cli",
+  "repository": "git://github.com/derhuerst/vbb-cli.git",
+  "bugs": "https://github.com/derhuerst/vbb-cli/issues",
+  "license": "MIT",
+  "dependencies": {
+    "ansi-256-colors": "^1.1.0",
+    "async": "^1.4.2",
+    "chalk": "^1.1.0",
+    "coffee-script": "^1.9.3",
+    "colors-256": "^1.0.0",
+    "commander": "^2.8.1",
+    "duration-js": "^3.3.4",
+    "hex-rgb": "^1.0.0",
+    "inquirer": "git+ssh://git@github.com:derhuerst/Inquirer.js.git#autocomplete",
+    "q": "^1.4.1",
+    "vbb": "^0.3.1",
+    "vbb-util": "^0.4.0"
+  },
+  "directories": {
+    "bin": "./bin"
+  }
 }
