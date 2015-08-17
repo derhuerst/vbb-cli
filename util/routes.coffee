@@ -26,13 +26,17 @@ query = (program) ->
 
 
 productSymbol = (type) ->
+	# todo:
+	# Since xterm does only support 0..5 for red, green and blue, we need to convert the rgb value here.
+	# Find a cleaner solution, probably a dedicated module, for that.
 	fg = hexRgb 'ffffff'   # todo: use a foreground that is readable on the background color
+	fg[0] = Math.round fg[0] / 256 * 5
+	fg[1] = Math.round fg[1] / 256 * 5
+	fg[2] = Math.round fg[2] / 256 * 5
 	bg = hexRgb util.products[type].color
-	console.log fg, bg
-	console.log c256.fg.getRgb fg[0], fg[1], fg[2]
-	console.log c256.bg.getRgb bg[0], bg[1], bg[2]
-	console.log util.products[type].short
-	console.log c256.reset
+	bg[0] = Math.round bg[0] / 256 * 5
+	bg[1] = Math.round bg[1] / 256 * 5
+	bg[2] = Math.round fg[2] / 256 * 5
 	return [
 		c256.fg.getRgb fg[0], fg[1], fg[2]
 		c256.bg.getRgb bg[0], bg[1], bg[2]
