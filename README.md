@@ -2,6 +2,8 @@
 
 **Easily the most awesome public transport CLI on the planet.**
 
+[![vbb-cli 0.2.0](https://asciinema.org/a/25199.png)](https://asciinema.org/a/25199)
+
 *vbb-cli* is a command line client for the **Berlin & Brandenburg public transport (VBB) API**. It written in CoffeeScript and uses the [`vbb` API client library](https://github.com/derhuerst/vbb). It is [MIT-licensed](LICENSE).
 
 [![npm version](https://img.shields.io/npm/v/vbb-cli.svg)](https://www.npmjs.com/package/vbb-cli)
@@ -49,9 +51,7 @@ You have to use `./vbb` instead of `vbb` now.
     -p, --products [list]  Allowed transportation types.
 ```
 
-If you don't pass the options, *vbb-cli* will ask for them interactively:
-
-[![vbb-cli](https://asciinema.org/a/2uma3b56fdm8s1gbvpj7h2alz.png)](https://asciinema.org/a/2uma3b56fdm8s1gbvpj7h2alz)
+If you don't pass the options, *vbb-cli* will ask for them interactively.
 
 
 
