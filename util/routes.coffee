@@ -61,17 +61,33 @@ routeName = (route) ->
 
 	return [
 		[
-			('0' + start.getHours()).slice -2
-			('0' + start.getMinutes()).slice -2
-		].join ':'
-		'–'
-		[
-			('0' + stop.getHours()).slice -2
-			('0' + stop.getMinutes()).slice -2
-		].join ':'
-		chalk.yellow new Duration(stop - start).toString()
+			renderTime first.when
+			renderTime last.when
+		].join chalk.gray '-'
+		renderDuration first.when, last.when
 		types
 	].join ' '
+
+
+
+
+
+renderDate = (timestamp) ->
+	return chalk.cyan moment.unix(timestamp).format 'MMM D'
+
+renderTime = (timestamp) ->
+	return chalk.cyan moment.unix(timestamp).format 'HH:mm'
+
+renderDuration = (start, stop) ->
+	if stop? then m = moment.duration stop - start
+	else m = moment.duration start
+	result = []
+	if m.hours() >= 1 then result.push m.hours() + 'h'
+	if m.minutes() >= 1 then result.push m.minutes() + 'm'
+	if m.seconds() >= 1 then result.push m.seconds() + 's'
+	return chalk.yellow result.join ' '
+	# todo: pad numbers with ' '
+	# todo: ' ' between digits
 
 
 
