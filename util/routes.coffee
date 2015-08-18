@@ -112,6 +112,48 @@ routes = (results) ->
 
 
 
+node = chalk.gray '\u2022'   # `•`
+bar = chalk.gray '|'
+
+route = (route) ->
+	lines = []
+	lines.push ''
+	for part, i in route.parts
+
+		lines.push [
+			''   # indentation
+			node
+			renderTime part.from.when
+			if i is 0 then chalk.bold part.from.name else part.from.name   # first station?
+		].join '  '
+
+		lines.push '  ' + bar
+		lines.push [
+			''   # indentation
+			bar
+			''   # spacing
+			renderDuration part.from.when, part.to.when
+			# todo: number of stations
+			partSymbol part
+			chalk.gray '-> ' + part.direction
+		].join '  '
+		lines.push '  ' + bar
+
+		if not route.parts[i + 1]   # last part, showing last station
+			lines.push [
+				''   # indentation
+				node
+				renderTime part.to.when
+				chalk.bold part.to.name
+			].join '  '
+
+	lines.push ''
+	console.log lines.join '\n'
+
+
+
+
+
 module.exports = (program) ->
 	return query program
 	.then routes
