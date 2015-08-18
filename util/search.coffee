@@ -12,7 +12,7 @@ util =			require 'vbb-util'
 
 
 station = (param, question) ->
-	# todo: search when autocompletion falied
+	# todo: search when autocompletion failed
 	return (program) ->
 		promisedStation = Q.defer()
 		if program[param]

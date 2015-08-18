@@ -35,7 +35,7 @@ productColor = (product, text) ->
 productSymbol = (part) ->
 	if part.transport is 'public'
 		product = util.products[part.type] or util.products.unknown
-		productColor part.type, product.short
+		return productColor part.type, product.short
 	else return util.routes.legs.types[part.transport].unicode + ' '
 
 lineSymbol = (part) ->
@@ -69,9 +69,6 @@ routeName = (route) ->
 
 
 
-renderDate = (timestamp) ->
-	return chalk.cyan moment.unix(timestamp).format 'MMM D'
-
 renderTime = (timestamp) ->
 	return chalk.cyan moment(timestamp).format 'HH:mm'
 
@@ -84,7 +81,6 @@ renderDuration = (start, stop) ->
 	if m.seconds() >= 1 then result.push m.seconds() + 's'
 	return chalk.yellow result.join ' '
 	# todo: pad numbers with ' '
-	# todo: ' ' between digits
 
 
 
