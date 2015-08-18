@@ -38,10 +38,9 @@ productSymbol = (part) ->
 		productColor part.type, product.short
 	else return util.routes.legs.types[part.transport].unicode + ' '
 
-partSymbol = (part) ->
+lineSymbol = (part) ->
 	if part.transport is 'public'
-		product = util.products[part.type] or util.products.unknown
-		return productColor part.type, product.name + ' ' + part.line
+		return productColor part.type, part.line
 	else return util.routes.legs.types[part.transport].unicode + ' '
 
 
@@ -122,7 +121,9 @@ route = (route) ->
 			''   # indentation
 			node
 			renderTime part.from.when
-			if i is 0 then chalk.bold part.from.name else part.from.name   # first station?
+			if i is 0
+				chalk.bold part.from.name
+			else part.from.name   # first station?
 		].join '  '
 
 		lines.push '  ' + bar
@@ -132,18 +133,20 @@ route = (route) ->
 			''   # spacing
 			renderDuration part.from.when, part.to.when
 			# todo: number of stations
-			partSymbol part
+			lineSymbol part
 			chalk.gray '-> ' + part.direction
 		].join '  '
 		lines.push '  ' + bar
 
-		if not route.parts[i + 1]   # last part, showing last station
-			lines.push [
-				''   # indentation
-				node
-				renderTime part.to.when
+		lines.push [
+			''   # indentation
+			node
+			renderTime part.to.when
+			# todo: fix the following
+			if i is route.parts.length - 1
 				chalk.bold part.to.name
-			].join '  '
+			else part.to.name   # last station?
+		].join '  '
 
 	lines.push ''
 	console.log lines.join '\n'
