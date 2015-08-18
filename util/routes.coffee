@@ -111,11 +111,24 @@ routes = (results) ->
 
 node = chalk.gray '\u2022'   # `•`
 bar = chalk.gray '|'
+wait = chalk.gray '\u22ee'   # `⋮`
 
 route = (route) ->
 	lines = []
 	lines.push ''
+	previous = null
 	for part, i in route.parts
+
+		if previous
+			lines.push ''
+			lines.push [
+				'  '   # indentation
+				wait
+				'         '   # indentation
+				chalk.gray 'wait for '
+				renderDuration previous.to.when, part.from.when
+			].join ''
+			lines.push ''
 
 		lines.push [
 			''   # indentation
@@ -148,6 +161,7 @@ route = (route) ->
 			else part.to.name   # last station?
 		].join '  '
 
+		previous = part
 	lines.push ''
 	console.log lines.join '\n'
 
