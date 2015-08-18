@@ -74,7 +74,7 @@ renderDate = (timestamp) ->
 	return chalk.cyan moment.unix(timestamp).format 'MMM D'
 
 renderTime = (timestamp) ->
-	return chalk.cyan moment.unix(timestamp).format 'HH:mm'
+	return chalk.cyan moment(timestamp).format 'HH:mm'
 
 renderDuration = (start, stop) ->
 	if stop? then m = moment.duration stop - start
