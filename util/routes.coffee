@@ -66,7 +66,7 @@ routeName = (route) ->
 		].join chalk.gray '-'
 		renderDuration first.when, last.when
 		types
-	].join ' '
+	].join '  '
 
 
 
@@ -157,3 +157,8 @@ route = (route) ->
 module.exports = (program) ->
 	return query program
 	.then routes
+	.then route
+	.catch (err) ->
+		console.error err.stack
+		process.exit 1
+	# todo: optionally show tickets

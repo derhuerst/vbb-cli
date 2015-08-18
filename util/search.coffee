@@ -12,6 +12,7 @@ util =			require 'vbb-util'
 
 
 station = (param, question) ->
+	# todo: search when autocompletion falied
 	return (program) ->
 		promisedStation = Q.defer()
 		if program[param]
@@ -137,5 +138,6 @@ products = (program) ->
 module.exports = (program) ->
 	return station('from', 'Where are you?') program
 	.then station 'to', 'Where do you want to go?'
+	# todo: support picking a date
 	.then results
 	.then products
