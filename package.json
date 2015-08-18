@@ -1,6 +1,6 @@
 {
 	"name": "vbb-cli",
-	"description": "A CLI frontend for Berlin & Brandenburg public transport.",
+	"description": "A CLI for Berlin & Brandenburg public transport.",
 	"version": "0.1.0",
 	"keywords": [
 		"vbb",
@@ -8,6 +8,7 @@
 		"berlin",
 		"brandenburg",
 		"public transport",
+		"vbb",
 		"api",
 		"open data",
 		"hafas",
