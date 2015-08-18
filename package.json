@@ -25,18 +25,14 @@
 	"bugs": "https://github.com/derhuerst/vbb-cli/issues",
 	"license": "MIT",
 	"dependencies": {
-		"ansi-256-colors":	"^1.1.0",
-		"async":			"^1.4.2",
-		"chalk":			"^1.1.0",
 		"coffee-script":	"^1.9.3",
-		"colors-256":		"^1.0.0",
 		"commander":		"^2.8.1",
-		"duration-js":		"^3.3.4",
-		"hex-rgb":			"^1.0.0",
-		"inquirer":			"git+ssh://git@github.com:derhuerst/Inquirer.js.git#autocomplete",
-		"q":				"^1.4.1",
 		"vbb":				"^0.3.1",
-		"vbb-util":			"^0.4.0"
+		"q":				"^1.4.1",
+		"inquirer":			"git+ssh://git@github.com:derhuerst/Inquirer.js.git#autocomplete",
+		"chalk":			"^1.1.0",
+		"vbb-util":			"^0.4.0",
+		"moment":			"^2.10.6"
 	},
 	"directories": {
 		"bin": "./bin"

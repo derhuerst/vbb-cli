@@ -2,10 +2,8 @@
 
 Q =				require 'q'
 inquirer =		require 'inquirer'
-c256 =			require 'ansi-256-colors'
-hexRgb =		require 'hex-rgb'
 chalk =			require 'chalk'
-Duration =		require 'duration-js'
+moment =		require 'moment'
 
 vbb =			require 'vbb'
 util =			require 'vbb-util'

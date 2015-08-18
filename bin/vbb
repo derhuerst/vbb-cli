@@ -2,17 +2,10 @@
 
 path =			require 'path'
 commander =		require 'commander'
-Q =				require 'q'
-inquirer =		require 'inquirer'
-async =			require 'async'
-c256 =			require 'colors-256'
-chalk =			require 'chalk'
-Duration =		require 'duration-js'
 
 vbb =			require 'vbb'
-util =			require 'vbb-util'
-search =		require '../util/search' # todo: does `..` work?
-routes =		require '../util/routes' # todo: does `..` work?
+search =		require '../util/search'
+routes =		require '../util/routes'
 
 
 

@@ -2,7 +2,6 @@
 
 Q =				require 'q'
 inquirer =		require 'inquirer'
-c256 =			require 'colors-256'
 
 vbb =			require 'vbb'
 util =			require 'vbb-util'
