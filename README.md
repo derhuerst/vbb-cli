@@ -49,7 +49,9 @@ You have to use `./vbb` instead of `vbb` now.
     -p, --products [list]  Allowed transportation types.
 ```
 
-If you don't pass the options, *vbb-cli* will ask for them interactively.
+If you don't pass the options, *vbb-cli* will ask for them interactively:
+
+[![vbb-cli](https://asciinema.org/a/2uma3b56fdm8s1gbvpj7h2alz.png)](https://asciinema.org/a/2uma3b56fdm8s1gbvpj7h2alz)
 
 
 
