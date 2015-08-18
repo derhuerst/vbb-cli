@@ -66,9 +66,18 @@ results = (program) ->
 
 
 
+all =
+	suburban:	true
+	subway:		true
+	tram:		true
+	bus:		true
+	ferry:		true
+	express:	true
+	regional:	true
+
 parseProducts = (products) ->
+	if products is 'all' then return all
 	result = {}
-	for product in products
 	for product in products.split ','
 		result[product] = true
 	return result
