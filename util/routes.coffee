@@ -24,36 +24,40 @@ query = (program) ->
 
 
 
+firstToUpperCase = (string) -> string.substr(0, 1).toUpperCase() + string.substr 1
 
-productSymbol = (type) ->
-	# todo:
-	# Since xterm does only support 0..5 for red, green and blue, we need to convert the rgb value here.
-	# Find a cleaner solution, probably a dedicated module, for that.
-	fg = hexRgb 'ffffff'   # todo: use a foreground that is readable on the background color
-	fg[0] = Math.round fg[0] / 256 * 5
-	fg[1] = Math.round fg[1] / 256 * 5
-	fg[2] = Math.round fg[2] / 256 * 5
-	bg = hexRgb util.products[type].color
-	bg[0] = Math.round bg[0] / 256 * 5
-	bg[1] = Math.round bg[1] / 256 * 5
-	bg[2] = Math.round fg[2] / 256 * 5
-	return [
-		c256.fg.getRgb fg[0], fg[1], fg[2]
-		c256.bg.getRgb bg[0], bg[1], bg[2]
-		util.products[type].short
-		c256.reset
-	].join ''
+productColor = (product, text) ->
+	product = util.products[product] or util.products.unknown
+	styles = chalk
+	for style in product.ansi
+		if styles[style]
+			styles = styles[style]
+	return styles text
+
+productSymbol = (part) ->
+	if part.transport is 'public'
+		product = util.products[part.type] or util.products.unknown
+		productColor part.type, product.short
+	else return util.routes.legs.types[part.transport].unicode + ' '
+
+partSymbol = (part) ->
+	if part.transport is 'public'
+		product = util.products[part.type] or util.products.unknown
+		return productColor part.type, product.name + ' ' + part.line
+	else return util.routes.legs.types[part.transport].unicode + ' '
+
+
+
+
 
 routeName = (route) ->
-	start = route.parts[0].from.when
-	stop = route.parts[route.parts.length - 1].to.when
+	first = route.parts[0].from
+	last = route.parts[route.parts.length - 1].to
 
-	types = ''
+	types = []
 	for part in route.parts
-		if part.transport is 'public' then types += productSymbol part.type
-		else types += util.routes.legs.types[part.transport].symbol
-		types += ' '   # fix weird unicode spacing error
-	console.log types
+		types.push productSymbol part
+	types = types.join ' '
 
 	return [
 		[
