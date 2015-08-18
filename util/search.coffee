@@ -15,6 +15,7 @@ station = (param, question) ->
 	return (program) ->
 		promisedStation = Q.defer()
 		if program[param]
+			program[param] = parseInt program[param]
 			promisedStation.resolve program
 			return promisedStation.promise
 		inquirer.prompt [{
@@ -47,6 +48,7 @@ station = (param, question) ->
 results = (program) ->
 	deferred = Q.defer()
 	if program.results
+		program.results = parseInt program.results
 		deferred.resolve program
 		return deferred.promise
 	inquirer.prompt [{
@@ -67,6 +69,7 @@ results = (program) ->
 parseProducts = (products) ->
 	result = {}
 	for product in products
+	for product in products.split ','
 		result[product] = true
 	return result
 

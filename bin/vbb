@@ -22,10 +22,10 @@ pkg =			require path.join __dirname, '../package.json'
 
 program = commander
 .version pkg.version
-.option '-f, --from [station]', 'Where the routes shall begin.', parseInt
-.option '-t, --to [station]', 'Where the routes shall end.', parseInt
-.option '-r, --results [n]', 'The number of routes.', parseInt
-.option '-p, --products [list]', 'Allowed transportation types.', (val) -> val.split ','
+.option '-f, --from [station]', 'Where the routes shall begin.'
+.option '-t, --to [station]', 'Where the routes shall end.'
+.option '-r, --results [n]', 'The number of routes.'
+.option '-p, --products [list]', 'Allowed transportation types.'
 .parse process.argv
 
 program.client = vbb '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
