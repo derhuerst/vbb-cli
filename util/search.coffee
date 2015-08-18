@@ -2,6 +2,7 @@
 
 Q =				require 'q'
 inquirer =		require 'inquirer'
+chalk =			require 'chalk'
 
 vbb =			require 'vbb'
 util =			require 'vbb-util'
@@ -77,10 +78,21 @@ all =
 
 parseProducts = (products) ->
 	if products is 'all' then return all
+	if typeof products is 'string' then products = products.split ','
 	result = {}
-	for product in products.split ','
+	for product in products
 		result[product] = true
 	return result
+
+
+
+productColor = (product, text) ->
+	product = util.products[product] or util.products.unknown
+	styles = chalk
+	for style in product.ansi
+		if styles[style]
+			styles = styles[style]
+	return styles text
 
 
 
@@ -90,41 +102,21 @@ products = (program) ->
 		program.products = parseProducts program.products
 		deferred.resolve program
 		return deferred.promise
+	choices = []
+	for product in util.products.categories
+		continue if product.type is 'unknown'
+		choices.push
+			name: [
+				productColor product.type, product.short
+				chalk.gray product.name
+			].join ' '
+			value:		product.type
+			checked:	if product.type is 'express' then false else true
 	inquirer.prompt [{
 		type:		'checkbox',
 		name:		'products',
 		message:	'Which products do you want to use?',
-		choices:	[
-			{
-				name:		'S-Bahn (suburban)'
-				value:		'suburban'
-				checked:	true
-			}, {
-				name:		'U-Bahn (subway)'
-				value:		'subway'
-				checked:	true
-			}, {
-				name:		'Tram (cable car)'
-				value:		'tram'
-				checked:	true
-			}, {
-				name:		'Bus'
-				value:		'bus'
-				checked:	true
-			}, {
-				name:		'Ferry'
-				value:		'ferry'
-				checked:	true
-			}, {
-				name:		'RE/RB (regional trains)'
-				value:		'regional'
-				checked:	true
-			}, {
-				name:		'ICE/IC/EC (express trains)'
-				value:		'express'
-				checked:	false
-			}
-		]
+		choices:	choices
 	}], (answers) ->
 		program.products = parseProducts answers.products
 		deferred.resolve program
