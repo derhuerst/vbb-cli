@@ -29,7 +29,7 @@ station = (param, question) ->
 						promisedChoices = Q.defer()
 						promisedChoices.resolve []
 						return promisedChoices.promise
-					return program.client.autocomplete input, 5
+					return program.autocomplete.suggest input, 5
 					.then (results) ->
 						choices = []
 						for result in results

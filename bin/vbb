@@ -3,7 +3,8 @@
 path =			require 'path'
 commander =		require 'commander'
 
-vbb =			require 'vbb'
+hafas =			require 'vbb-hafas'
+autocomplete =	require 'vbb-stations-autocomplete'
 search =		require '../util/search'
 routes =		require '../util/routes'
 
@@ -21,7 +22,8 @@ program = commander
 .option '-p, --products [list]', 'Allowed transportation types.'
 .parse process.argv
 
-program.client = vbb '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
+program.client = hafas '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
+program.autocomplete = autocomplete()
 
 
 
