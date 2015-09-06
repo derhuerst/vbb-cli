@@ -4,7 +4,6 @@ Q =				require 'q'
 inquirer =		require 'inquirer'
 chalk =			require 'chalk'
 
-vbb =			require 'vbb'
 util =			require 'vbb-util'
 
 

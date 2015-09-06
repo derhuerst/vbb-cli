@@ -5,7 +5,6 @@ inquirer =		require 'inquirer'
 chalk =			require 'chalk'
 moment =		require 'moment'
 
-vbb =			require 'vbb'
 util =			require 'vbb-util'
 
 
