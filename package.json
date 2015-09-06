@@ -29,7 +29,7 @@
 		"coffee-script":				"^1.9.3",
 		"commander":					"^2.8.1",
 		"vbb-hafas":					"^0.5.0",
-		"vbb-stations-autocomplete":	"^0.3.0",
+		"vbb-stations-autocomplete":	"^0.4.2",
 		"q":							"^1.4.1",
 		"inquirer":						"ssh://git@github.com:derhuerst/Inquirer.js.git#autocomplete",
 		"chalk":						"^1.1.0",
