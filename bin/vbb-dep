@@ -1,0 +1,33 @@
+#!/usr/bin/env coffee
+
+path =			require 'path'
+commander =		require 'commander'
+
+hafas =			require 'vbb-hafas'
+autocomplete =	require 'vbb-stations-autocomplete'
+search =		require '../lib/vbb-dep/search'
+departures =	require '../lib/vbb-dep/departures'
+
+
+
+
+
+pkg =			require path.join __dirname, '../package.json'
+
+program = commander
+.version pkg.version
+.usage '[<id>] [options]'
+.option '-r, --results [n]', 'The number of departures.'
+.option '-p, --products [list]', 'Allowed transportation types.'
+.option '--relative', 'Display time relatively.'
+.parse process.argv
+
+program.client = hafas '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
+program.autocomplete = autocomplete()
+
+
+
+
+
+search program
+.then departures
