@@ -108,6 +108,8 @@ node = chalk.gray '\u2022'   # `•`
 bar = chalk.gray '|'
 wait = chalk.gray '\u22ee'   # `⋮`
 
+# todo: show realtime information
+
 route = (route) ->
 	lines = []
 	lines.push ''
@@ -158,7 +160,7 @@ route = (route) ->
 
 		previous = part
 	lines.push ''
-	console.log lines.join '\n'
+	process.stdout.write lines.join '\n'
 
 
 

@@ -3,11 +3,6 @@
 path =			require 'path'
 commander =		require 'commander'
 
-hafas =			require 'vbb-hafas'
-autocomplete =	require 'vbb-stations-autocomplete'
-search =		require '../util/search'
-routes =		require '../util/routes'
-
 
 
 
@@ -16,18 +11,5 @@ pkg =			require path.join __dirname, '../package.json'
 
 program = commander
 .version pkg.version
-.option '-f, --from [station]', 'Where the routes shall begin.'
-.option '-t, --to [station]', 'Where the routes shall end.'
-.option '-r, --results [n]', 'The number of routes.'
-.option '-p, --products [list]', 'Allowed transportation types.'
+.command 'route [--from <id>] [--to <id>] [options]', 'Find a route from A to B.'
 .parse process.argv
-
-program.client = hafas '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
-program.autocomplete = autocomplete()
-
-
-
-
-
-search program
-.then routes
