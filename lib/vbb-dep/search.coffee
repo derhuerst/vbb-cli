@@ -76,7 +76,15 @@ all =
 parseProducts = (products) ->
 	if products is 'all' then return all
 	if typeof products is 'string' then products = products.split ','
-	result = {}
+
+	result =
+		suburban:	false
+		subway:		false
+		tram:		false
+		bus:		false
+		ferry:		false
+		express:	false
+		regional:	false
 	for product in products
 		result[product] = true
 	return result

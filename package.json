@@ -2,6 +2,7 @@
 	"name": "vbb-cli",
 	"description": "A CLI for Berlin & Brandenburg public transport.",
 	"version": "0.2.0",
+	"bin": "./bin/vbb",
 	"keywords": [
 		"vbb",
 		"cli",
