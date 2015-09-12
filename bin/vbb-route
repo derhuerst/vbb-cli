@@ -15,6 +15,7 @@ program = commander
 .version pkg.version
 .option '-f, --from [station]', 'Where the routes shall begin.'
 .option '-t, --to [station]', 'Where the routes shall end.'
+.option '-w, --when [date & time]', 'A valid moment.js date time string.'
 .option '-r, --results [n]', 'The number of routes.'
 .option '-p, --products [list]', 'Allowed transportation types.'
 .parse process.argv
@@ -25,6 +26,7 @@ program = commander
 
 
 station =		require '../lib/vbb-route/01-station'
+_when =			require '../lib/vbb-route/02-when'
 results =		require '../lib/vbb-route/03-results'
 products =		require '../lib/vbb-route/04-products'
 query =			require '../lib/vbb-route/05-query'
@@ -37,6 +39,7 @@ render =		require '../lib/vbb-route/07-render'
 	return deferred.promise
 ) program
 .then station
+.then _when
 .then results
 .then products
 .then query
