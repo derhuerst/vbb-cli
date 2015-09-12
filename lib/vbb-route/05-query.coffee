@@ -35,7 +35,6 @@ module.exports = (program) ->
 		results:	program.results
 		products:	program.products
 	.then (results) ->
-		console.log 'queried'
 		program.query = results
 		deferred.resolve program
 	.catch (err) ->

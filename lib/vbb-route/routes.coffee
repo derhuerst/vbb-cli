@@ -21,8 +21,6 @@ query = (program) ->
 
 
 
-firstToUpperCase = (string) -> string.substr(0, 1).toUpperCase() + string.substr 1
-
 productColor = (product, text) ->
 	product = util.products[product] or util.products.unknown
 	styles = chalk
@@ -159,7 +157,7 @@ route = (route) ->
 		].join '  '
 
 		previous = part
-	lines.push ''
+	lines.push '', ''
 	process.stdout.write lines.join '\n'
 
 
