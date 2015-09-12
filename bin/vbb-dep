@@ -16,6 +16,7 @@ program = commander
 .option '-s, --station [id]', 'The station id.'
 .option '-r, --results [n]', 'The number of departures.'
 .option '-p, --products [list]', 'Allowed transportation types.'
+.option '-w, --when [date & time]', 'A valid moment.js date time string.'
 .option '--relative', 'Display time relatively.'
 .parse process.argv
 
@@ -24,6 +25,7 @@ program = commander
 
 
 station =		require '../lib/vbb-dep/01-station'
+_when =			require '../lib/vbb-dep/02-when'
 results =		require '../lib/vbb-dep/03-results'
 products =		require '../lib/vbb-dep/04-products'
 query =			require '../lib/vbb-dep/05-query'
@@ -35,6 +37,7 @@ render =		require '../lib/vbb-dep/06-render'
 	return deferred.promise
 ) program
 .then station
+.then _when
 .then results
 .then products
 .then query
