@@ -2,11 +2,8 @@
 
 path =			require 'path'
 commander =		require 'commander'
+Q =				require 'q'
 
-hafas =			require 'vbb-hafas'
-autocomplete =	require 'vbb-stations-autocomplete'
-search =		require '../lib/vbb-route/search'
-routes =		require '../lib/vbb-route/routes'
 
 
 
@@ -22,12 +19,27 @@ program = commander
 .option '-p, --products [list]', 'Allowed transportation types.'
 .parse process.argv
 
-program.client = hafas '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
-program.autocomplete = autocomplete()
 
 
 
 
 
-search program
-.then routes
+station =		require '../lib/vbb-route/01-station'
+results =		require '../lib/vbb-route/03-results'
+products =		require '../lib/vbb-route/04-products'
+query =			require '../lib/vbb-route/05-query'
+select =		require '../lib/vbb-route/06-select'
+render =		require '../lib/vbb-route/07-render'
+
+((program) ->
+	deferred = Q.defer()
+	deferred.resolve program
+	return deferred.promise
+) program
+.then station
+.then results
+.then products
+.then query
+.then select
+.then render
+.catch (err) -> console.error err.message, err.stack
