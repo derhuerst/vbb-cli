@@ -4,6 +4,7 @@ path =			require 'path'
 commander =		require 'commander'
 Q =				require 'q'
 
+onError =		require '../lib/on-error'
 
 
 
@@ -20,6 +21,7 @@ program = commander
 .option '-p, --products [list]', 'Allowed transportation types.'
 .parse process.argv
 
+program.onError = onError
 
 
 

@@ -4,6 +4,8 @@ path =			require 'path'
 commander =		require 'commander'
 Q =				require 'q'
 
+onError =		require '../lib/on-error'
+
 
 
 
@@ -19,6 +21,8 @@ program = commander
 .option '-w, --when [date & time]', 'A valid moment.js date time string.'
 .option '--relative', 'Display time relatively.'
 .parse process.argv
+
+program.onError = onError
 
 
 

@@ -35,4 +35,7 @@ module.exports = (program) ->
 	.then (results) ->
 		program.query = results
 		deferred.resolve program
+	.catch (err) ->
+		program.onError err
+		deferred.reject err
 	return deferred.promise

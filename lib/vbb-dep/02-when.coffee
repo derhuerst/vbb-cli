@@ -16,5 +16,7 @@ module.exports = (program) ->
 	.date.then (value) ->
 		program.when = new Date 0 + value
 		deferred.resolve program
-	.catch (err) -> deferred.reject err
+	.catch (err) ->
+		program.onError err
+		deferred.reject err
 	return deferred.promise
