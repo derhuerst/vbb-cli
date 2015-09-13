@@ -39,9 +39,9 @@ parseProducts = (products) ->
 		express:	false
 		regional:	false
 	if products is 'all' then return all
-	else if typeof products is 'string'
-		for product in products.split ','
-			result[product] = true
+	else if typeof products is 'string' then products = products.split ','
+	for product in products
+		result[product] = true
 	return result
 
 

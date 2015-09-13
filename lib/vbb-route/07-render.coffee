@@ -22,6 +22,28 @@ renderDuration = (start, stop) ->
 
 
 
+
+productColor = (product, text) ->
+	product = util.products[product] or util.products.unknown
+	styles = chalk
+	for style in product.ansi
+		if styles[style]
+			styles = styles[style]
+	return styles text
+
+productSymbol = (part) ->
+	if part.transport is 'public'
+		product = util.products[part.type] or util.products.unknown
+		return productColor part.type, product.short
+	else return util.routes.legs.types[part.transport].unicode + ' '
+
+lineSymbol = (part) ->
+	if part.transport is 'public'
+		return productColor part.type, part.line
+	else return util.routes.legs.types[part.transport].unicode + ' '
+
+
+
 node = chalk.gray '\u2022'   # `•`
 bar = chalk.gray '|'
 wait = chalk.gray '\u22ee'   # `⋮`
@@ -71,7 +93,7 @@ module.exports = (program) ->
 			node
 			renderTime part.to.when
 			# todo: fix the following
-			if i is route.parts.length - 1
+			if i is program.route.parts.length - 1
 				chalk.bold part.to.name
 			else part.to.name   # last station?
 		].join '  '

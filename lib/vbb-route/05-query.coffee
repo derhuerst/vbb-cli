@@ -28,7 +28,7 @@ client = hafas '2e9c6a18-8f2e-440c-a8bb-555e85cbeee9'
 
 module.exports = (program) ->
 	deferred = Q.defer()
-	return client.routes
+	client.routes
 		from:		program.from
 		to:			program.to
 		when:		program.when
