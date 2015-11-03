@@ -32,7 +32,7 @@
 		"vbb-hafas":					"^0.5.0",
 		"vbb-stations-autocomplete":	"^0.4.2",
 		"q":							"^1.4.1",
-		"inquirer":						"derhuerst/Inquirer.js#autocomplete",
+		"inquirer":						"git+https://github.com/derhuerst/Inquirer.js.git#autocomplete",
 		"chalk":						"^1.1.0",
 		"vbb-util":						"^0.5.1",
 		"moment":						"^2.10.6",
