@@ -25,7 +25,7 @@
 	"homepage": "https://github.com/derhuerst/vbb-cli",
 	"repository": "git://github.com/derhuerst/vbb-cli.git",
 	"bugs": "https://github.com/derhuerst/vbb-cli/issues",
-	"license": "MIT",
+	"license": "ISC",
 	"dependencies": {
 		"coffee-script":				"^1.9.3",
 		"commander":					"^2.8.1",
