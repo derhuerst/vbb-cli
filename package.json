@@ -2,7 +2,7 @@
 	"name": "vbb-cli",
 	"description": "A CLI for Berlin & Brandenburg public transport.",
 	"version": "0.2.0",
-	"bin": "./bin/vbb",
+	"bin": "./bin.js",
 	"keywords": [
 		"vbb",
 		"cli",
@@ -27,19 +27,5 @@
 	"bugs": "https://github.com/derhuerst/vbb-cli/issues",
 	"license": "ISC",
 	"dependencies": {
-		"coffee-script":				"^1.9.3",
-		"commander":					"^2.8.1",
-		"vbb-hafas":					"^0.5.0",
-		"vbb-stations-autocomplete":	"^0.4.2",
-		"bluebird":						"^3.1.2",
-		"inquirer":						"^0.12",
-		"chalk":						"^1.1.0",
-		"vbb-util":						"^0.5.1",
-		"moment":						"^2.10.6",
-		"date-prompt":					"^0.3.1"
-	},
-	"directories": {
-		"bin": "./bin",
-		"lib": "./lib"
 	}
 }
