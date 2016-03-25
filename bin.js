@@ -2,7 +2,6 @@
 'use strict'
 
 const yargs     = require('yargs')
-const parseTime = require('parse-messy-time')
 const so        = require('so')
 
 const lib       = require('./index')
@@ -48,9 +47,6 @@ if ('all' === opt.products)
 	opt.products = 'suburban,subway,tram,bus,ferry,express,regional'
 opt.products = opt.products.split(/,\s?/g)
 
-if ('string' === typeof opt.when)
-	opt.when = parseTime(opt.when)
-else opt.when = new Date()
 
 
 const showError = function (err) {
@@ -66,6 +62,11 @@ const main = so(function* (opt) {
 	try { opt.station = yield lib.parseStation(opt.station) }
 	catch (err) { showError(err) }
 	console.log('opt.station', opt.station.name, opt.station.id)
+
+	// query date & time
+	if (opt.when) opt.when = lib.parseWhen(opt.when)
+	else opt.when = yield lib.queryWhen('When?')
+	console.log('opt.when', opt.when.toString())
 })
 
 main(opt).catch(showError)

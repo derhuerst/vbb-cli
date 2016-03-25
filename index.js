@@ -3,6 +3,8 @@
 const staticData   = require('vbb-static')
 const autocomplete = require('vbb-stations-autocomplete')
 const completion   = require('cli-autocomplete')
+const parseTime    = require('parse-messy-time')
+const datePrompt   = require('date-prompt')
 
 
 
@@ -22,7 +24,15 @@ const queryStation = (message) => completion(message, {
 })
 
 
+
+const parseWhen = parseTime
+
+const queryWhen = datePrompt
+
+
+
 module.exports = {
 	isStationId, parseStation,
 	resultToSuggestion, queryStation,
+	parseWhen, queryWhen
 }
