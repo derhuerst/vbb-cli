@@ -53,10 +53,19 @@ if ('string' === typeof opt.when)
 else opt.when = new Date()
 
 
+const showError = function (err) {
+	console.error(err.stack)
+	process.exit(err.code || 1)
+}
 
 const main = so(function* (opt) {
-	try { station = yield lib.parseStation(opt.station) }
-	catch (err) { process.stderr.write(err.message) }
+
+	// query a station
+	if (!opt.station)
+		opt.station = yield lib.queryStation('Where?')
+	try { opt.station = yield lib.parseStation(opt.station) }
+	catch (err) { showError(err) }
+	console.log('opt.station', opt.station.name, opt.station.id)
 })
 
-main(opt)
+main(opt).catch(showError)

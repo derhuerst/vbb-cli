@@ -2,16 +2,27 @@
 
 const staticData   = require('vbb-static')
 const autocomplete = require('vbb-stations-autocomplete')
+const completion   = require('cli-autocomplete')
 
 
 
 const isStationId = (station) => /^\d{7}$/.test(station)
 
-const parseStation = (station) =>
-	isStationId(station)
-	? staticData.stations(true, parseInt(station))
-	: Promise.resolve(autocomplete(station, 1)[0])
+const parseStation = (query) => {
+	if (isStationId(query))
+		return staticData.stations(true, parseInt(query)) // search by id
+	let results = autocomplete(query, 1)
+	if (results.length > 0) return Promise.resolve(results[0])
+	else throw new Error(`Could not anything by "${query}".`)
+}
+
+const resultToSuggestion = (r) => ({title: r.name, value: r.id})
+const queryStation = (message) => completion(message, {
+	suggest: (input) => autocomplete(input, 5).map(resultToSuggestion)
+})
 
 
-
-module.exports = {isStationId, parseStation}
+module.exports = {
+	isStationId, parseStation,
+	resultToSuggestion, queryStation,
+}
