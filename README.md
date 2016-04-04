@@ -4,10 +4,11 @@
 
 [![vbb-cli 0.2.0](https://asciinema.org/a/25199.png)](https://asciinema.org/a/25199)
 
-*vbb-cli* is a command line client for the **Berlin & Brandenburg public transport (VBB) API**. It written in CoffeeScript and uses the [`vbb` API client library](https://github.com/derhuerst/vbb). It is [MIT-licensed](LICENSE).
+*vbb-cli* is a command line client for the **Berlin & Brandenburg public transport (VBB) API**. It written in CoffeeScript and uses the [`vbb` API client library](https://github.com/derhuerst/vbb).
 
 [![npm version](https://img.shields.io/npm/v/vbb-cli.svg)](https://www.npmjs.com/package/vbb-cli)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-cli.svg)](https://david-dm.org/derhuerst/vbb-cli)
+![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-cli.svg)
 
 
 
