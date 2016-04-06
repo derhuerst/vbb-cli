@@ -40,12 +40,6 @@ Options:
 
 
 
-if ('all' === opt.products)
-	opt.products = 'suburban,subway,tram,bus,ferry,express,regional'
-opt.products = opt.products.split(/,\s?/g)
-
-
-
 const showError = function (err) {
 	console.error(err.stack)
 	process.exit(err.code || 1)
@@ -69,6 +63,13 @@ const main = so(function* (opt) {
 	if (opt.results === true)
 		opt.results = yield lib.queryResults('How many results?')
 	else opt.results = lib.parseResults(opt.results)
+
+	// means of transport
+	if (opt.products === true)
+		opt.products = yield lib.queryProducts('Which means of transport?')
+	else opt.products = lib.parseProducts(opt.products)
+
+	process.stdin.unref() // todo: remove this hack
 })
 
 main(opt).catch(showError)

@@ -6,6 +6,9 @@ const completion        = require('cli-autocomplete')
 const parseTime         = require('parse-messy-time')
 const datePrompt        = require('date-prompt')
 const numberPrompt      = require('number-prompt')
+const util              = require('vbb-util')
+const chalk             = require('chalk')
+const multiselectPrompt = require('multiselect-prompt')
 
 
 
@@ -40,8 +43,31 @@ const queryResults = (msg) => numberPrompt(msg, {min: 0, value: 3, max: 10})
 
 
 
+const allProducts = ['suburban', 'subway', 'tram', 'bus', 'ferry', 'express', 'regional']
+const isValidProduct = (p) => allProducts.indexOf(x) >= 0
+const reduceProducts = (acc, p) => {
+	acc[p] = true
+	return acc
+}
+const parseProducts = (p) => {
+	if (p === 'all') return allProducts.reduce(reduceProducts, {})
+	if ('string' === typeof p) return p.split(',').map(trim)
+		.filter(isValidProduct).reduce(reduceProducts, {})
+}
+
+const productColor = (p, s) => util.products[p].ansi
+	.reduce((ch, c) => ch[c], chalk)(s)
+const productChoices = allProducts.map((p) => {
+	p = util.products[p]
+	return {value: p.type, title: productColor(p.type, p.short) + ' ' + p.name}
+})
+const queryProducts = (msg) => multiselectPrompt(msg, productChoices)
+
+
+
 module.exports = {
 	parseStation,  queryStation, isStationId, resultToSuggestion,
 	parseWhen,     queryWhen,
 	parseResults,  queryResults,
+	parseProducts, queryProducts
 }
