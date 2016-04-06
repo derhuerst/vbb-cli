@@ -1,10 +1,11 @@
 'use strict'
 
-const staticData   = require('vbb-static')
-const autocomplete = require('vbb-stations-autocomplete')
-const completion   = require('cli-autocomplete')
-const parseTime    = require('parse-messy-time')
-const datePrompt   = require('date-prompt')
+const staticData        = require('vbb-static')
+const autocomplete      = require('vbb-stations-autocomplete')
+const completion        = require('cli-autocomplete')
+const parseTime         = require('parse-messy-time')
+const datePrompt        = require('date-prompt')
+const numberPrompt      = require('number-prompt')
 
 
 
@@ -31,8 +32,16 @@ const queryWhen = datePrompt
 
 
 
+const parseResults = (r) => {
+	r = parseInt(r)
+	return (Number.isNaN(r) || !r) ? 3 : r
+}
+const queryResults = (msg) => numberPrompt(msg, {min: 0, value: 3, max: 10})
+
+
+
 module.exports = {
-	isStationId, parseStation,
-	resultToSuggestion, queryStation,
-	parseWhen, queryWhen
+	parseStation,  queryStation, isStationId, resultToSuggestion,
+	parseWhen,     queryWhen,
+	parseResults,  queryResults,
 }

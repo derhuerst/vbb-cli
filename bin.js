@@ -28,7 +28,7 @@ Arguments:
     station         Station number (like "9023201") or search string (like "Zoo").
 
 Options:
-    --results   -r  The number of departures to show. Default: 8
+    --results   -r  The number of departures to show. Default: 3
     --products  -p  Allowed transportation types. Default: "all"
                     "all" = "suburban,subway,tram,bus,ferry,express,regional"
     --when      -w  A date & time string like "tomorrow 2 pm". Default: now
@@ -39,9 +39,6 @@ Options:
 }
 
 
-
-if ('number' !== typeof opt.results)
-	opt.results = parseInt(opt.results)
 
 if ('all' === opt.products)
 	opt.products = 'suburban,subway,tram,bus,ferry,express,regional'
@@ -67,6 +64,11 @@ const main = so(function* (opt) {
 	if (opt.when) opt.when = lib.parseWhen(opt.when)
 	else opt.when = yield lib.queryWhen('When?')
 	console.log('opt.when', opt.when.toString())
+
+	// nr of results
+	if (opt.results === true)
+		opt.results = yield lib.queryResults('How many results?')
+	else opt.results = lib.parseResults(opt.results)
 })
 
 main(opt).catch(showError)
