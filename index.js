@@ -9,6 +9,8 @@ const numberPrompt       = require('number-prompt')
 const util               = require('vbb-util')
 const chalk              = require('chalk')
 const multiselectPrompt  = require('multiselect-prompt')
+const hafas              = require('vbb-hafas')
+const config             = require('config')
 
 
 
@@ -79,9 +81,14 @@ const queryProducts = (msg) => new Promise((resolve, reject) =>
 
 
 
+const fetch = (data) => hafas.departures(config.key, data.station.id)
+
+
+
 module.exports = {
 	parseStation,  queryStation, isStationId, suggestStations,
 	parseWhen,     queryWhen,
 	parseResults,  queryResults,
-	parseProducts, queryProducts
+	parseProducts, queryProducts,
+	fetch
 }

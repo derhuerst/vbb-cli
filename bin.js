@@ -3,8 +3,10 @@
 
 const yargs     = require('yargs')
 const so        = require('so')
+const chalk     = require('chalk')
 
 const lib       = require('./index')
+const render    = require('./render')
 
 
 
@@ -48,16 +50,14 @@ const showError = function (err) {
 const main = so(function* (opt) {
 
 	// query a station
-	if (!opt.station)
-		opt.station = yield lib.queryStation('Where?')
-	try { opt.station = yield lib.parseStation(opt.station) }
+	if (!opt.station) opt.station = yield lib.queryStation('Where?')
+	try { opt.station = (yield lib.parseStation(opt.station))[0] }
 	catch (err) { showError(err) }
-	console.log('opt.station', opt.station.name, opt.station.id)
 
 	// query date & time
-	if (opt.when) opt.when = lib.parseWhen(opt.when)
-	else opt.when = yield lib.queryWhen('When?')
-	console.log('opt.when', opt.when.toString())
+	if (opt.when === true) opt.when = yield lib.queryWhen('When?')
+	else if ('string' === typeof opt.when) opt.when = lib.parseWhen(opt.when)
+	else opt.when = new Date()
 
 	// nr of results
 	if (opt.results === true)
@@ -68,6 +68,15 @@ const main = so(function* (opt) {
 	if (opt.products === true)
 		opt.products = yield lib.queryProducts('Which means of transport?')
 	else opt.products = lib.parseProducts(opt.products)
+
+	const departures = yield lib.fetch(opt)
+	for (let dep of departures) {
+		console.log([
+			  render.product(dep.type)
+			, render.time(dep.when)
+			, chalk.gray('->'), render.station(dep.direction)
+		].join(' '))
+	}
 
 	process.stdin.unref() // todo: remove this hack
 })
