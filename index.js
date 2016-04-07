@@ -76,12 +76,16 @@ const productChoices = allProducts.map((name) => {
 })
 
 const queryProducts = (msg) => new Promise((resolve, reject) =>
-	multiselectPrompt(msg, productChoices).on('submit', resolve)
-	.on('abort', (v) => reject(new Error(`Rejected with ${v}.`))))
+	multiselectPrompt(msg, productChoices)
+	.on('abort', (v) => reject(new Error(`Rejected with ${v}.`)))
+	.on('submit', (products) => resolve(products.reduce((acc, p) => {
+		acc[p.value] = p.selected
+		return acc
+	}, {}))))
 
 
 
-const fetch = (data) => hafas.departures(config.key, data.station.id)
+const fetch = (data) => hafas.departures(config.key, data.station.id, data)
 
 
 
