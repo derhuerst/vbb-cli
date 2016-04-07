@@ -1,13 +1,11 @@
 'use strict'
 
-const padRight = require('pad-right')
 const chalk    = require('chalk')
 const ms       = require('ms')
 const util     = require('vbb-util')
+const Table    = require('cli-table2')
 
 
-
-const align = (s, l) => padRight(s, 100, ' ').slice(0, l)
 
 const product = (p) => {
 	p = util.products[p]
@@ -16,12 +14,21 @@ const product = (p) => {
 
 const time = (when) => {
 	let d = when - Date.now()
-	return chalk.cyan(align(
-		(d < 0 ? '-' : ' ') + ms(Math.abs(d)), 5))
+	return chalk.cyan((d < 0 ? '-' : '') + ms(Math.abs(d)))
 }
 
-const station = (name) => align(name, 30)
+const station = (name) => chalk.yellow(name)
+
+const table = () => new Table({
+	chars: {
+		top:    '', 'top-mid':    '', 'top-left':    '', 'top-right':    '',
+		bottom: '', 'bottom-mid': '', 'bottom-left': '', 'bottom-right': '',
+		left:   '', 'left-mid':   '',  mid:          '', 'mid-mid':      '',
+		right:  '', 'right-mid':  '',  middle:       ' '
+	},
+	style: {'padding-left': 1, 'padding-right': 0}
+})
 
 
 
-module.exports = {product, time, station}
+module.exports = {product, time, station, table}

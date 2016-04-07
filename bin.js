@@ -74,11 +74,13 @@ const main = so(function* (opt) {
 	const departures = yield lib.fetch({station, when, relative, results, products})
 
 	// render departures
-	for (let dep of departures) console.log([
+	const table = render.table()
+	for (let dep of departures) table.push([
 		  render.product(dep.type)
 		, render.time(dep.when)
-		, chalk.gray('->'), render.station(dep.direction)
-	].join(' '))
+		, render.station(dep.direction)
+	])
+	process.stdout.write(table.toString() + '\n')
 
 	process.stdin.unref() // todo: remove this hack
 })
