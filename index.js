@@ -1,14 +1,14 @@
 'use strict'
 
-const staticData        = require('vbb-static')
-const autocomplete      = require('vbb-stations-autocomplete')
-const completion        = require('cli-autocomplete')
-const parseTime         = require('parse-messy-time')
-const datePrompt        = require('date-prompt')
-const numberPrompt      = require('number-prompt')
-const util              = require('vbb-util')
-const chalk             = require('chalk')
-const multiselectPrompt = require('multiselect-prompt')
+const staticData         = require('vbb-static')
+const autocomplete       = require('vbb-stations-autocomplete')
+const autocompletePrompt = require('cli-autocomplete')
+const parseTime          = require('parse-messy-time')
+const datePrompt         = require('date-prompt')
+const numberPrompt       = require('number-prompt')
+const util               = require('vbb-util')
+const chalk              = require('chalk')
+const multiselectPrompt  = require('multiselect-prompt')
 
 
 
@@ -22,16 +22,19 @@ const parseStation = (query) => {
 	else throw new Error(`Could not anything by "${query}".`)
 }
 
-const resultToSuggestion = (r) => ({title: r.name, value: r.id})
-const queryStation = (message) => completion(message, {
-	suggest: (input) => autocomplete(input, 5).map(resultToSuggestion)
-})
+const suggestStations = (input) => autocomplete(input, 5)
+	.map((r) => ({title: r.name, value: r.id}))
+const queryStation = (msg) => new Promise((resolve, reject) =>
+	autocompletePrompt(msg, suggestStations).on('submit', resolve)
+	.on('abort', (v) => reject(new Error(`Rejected with ${v}.`))))
 
 
 
 const parseWhen = parseTime
 
-const queryWhen = datePrompt
+const queryWhen = (msg) => new Promise((resolve, reject) =>
+	datePrompt(msg).on('submit', (v) => resolve(new Date(v)))
+	.on('abort', (v) => reject(new Error(`Rejected with ${v}.`))))
 
 
 
@@ -39,7 +42,9 @@ const parseResults = (r) => {
 	r = parseInt(r)
 	return (Number.isNaN(r) || !r) ? 3 : r
 }
-const queryResults = (msg) => numberPrompt(msg, {min: 0, value: 3, max: 10})
+const queryResults = (msg) => new Promise((resolve, reject) =>
+	numberPrompt(msg, {min: 1, value: 3, max: 10}).on('submit', resolve)
+	.on('abort', (v) => reject(new Error(`Rejected with ${v}.`))))
 
 
 
@@ -57,16 +62,25 @@ const parseProducts = (p) => {
 
 const productColor = (p, s) => util.products[p].ansi
 	.reduce((ch, c) => ch[c], chalk)(s)
-const productChoices = allProducts.map((p) => {
-	p = util.products[p]
-	return {value: p.type, title: productColor(p.type, p.short) + ' ' + p.name}
+
+const defaultProducts = ['suburban', 'subway', 'tram', 'bus', 'regional']
+const productChoices = allProducts.map((name) => {
+	const p = util.products[name]
+	return {
+		  value:    p.type
+		, title:    productColor(p.type, p.short) + ' ' + p.name
+		, selected: defaultProducts.indexOf(name) >= 0
+	}
 })
-const queryProducts = (msg) => multiselectPrompt(msg, productChoices)
+
+const queryProducts = (msg) => new Promise((resolve, reject) =>
+	multiselectPrompt(msg, productChoices).on('submit', resolve)
+	.on('abort', (v) => reject(new Error(`Rejected with ${v}.`))))
 
 
 
 module.exports = {
-	parseStation,  queryStation, isStationId, resultToSuggestion,
+	parseStation,  queryStation, isStationId, suggestStations,
 	parseWhen,     queryWhen,
 	parseResults,  queryResults,
 	parseProducts, queryProducts

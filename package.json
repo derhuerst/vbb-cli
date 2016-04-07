@@ -27,5 +27,16 @@
 	"bugs": "https://github.com/derhuerst/vbb-cli/issues",
 	"license": "ISC",
 	"dependencies": {
+		"yargs":                     "^4.4",
+		"so":                        "^1.0.1",
+		"vbb-static":                "^0.11",
+		"vbb-stations-autocomplete": "^0.6.1",
+		"cli-autocomplete":          "^0.2",
+		"parse-messy-time":          "^1.2.2",
+		"date-prompt":               "^0.6",
+		"number-prompt":             "^0.1",
+		"vbb-util":                  "^0.9",
+		"chalk":                     "^1.1.1",
+		"multiselect-prompt":        "^0.2"
 	}
 }
