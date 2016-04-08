@@ -16,7 +16,7 @@ const opt = {
 	  station:  native.to(argv._.pop())
 	, help:     native.to(argv.help     || argv.h)
 	, results:  native.to(argv.results  || argv.r) || 8
-	, products: native.to(argv.products || argv.p) || 'all'
+	, products: native.to(argv.products || argv.p, ',') || 'all'
 	, when:     native.to(argv.when     || argv.w) || null
 	, relative: native.to(argv.relative)
 }
@@ -52,15 +52,17 @@ const main = so(function* (opt) {
 	let station, when, relative, results, products
 
 	// query a station
-	if (opt.station === true) station = yield lib.queryStation('Where?')
-	try { station = (yield lib.parseStation(opt.station))[0] }
+	if (!opt.station || opt.station === true)
+		station = yield lib.queryStation('Where?')
+	else station = opt.station
+	try { station = (yield lib.parseStation(station))[0] }
 	catch (err) { showError(err) }
 
 	// query date & time
 	if (opt.when === true) when = yield lib.queryWhen('When?')
 	else if ('string' === typeof opt.when) when = lib.parseWhen(opt.when)
 	else when = new Date()
-	relative = !!opt.relative
+	relative = opt.relative === true
 
 	// nr of results
 	if (opt.results === true) results = yield lib.queryResults('How many results?')
@@ -74,6 +76,8 @@ const main = so(function* (opt) {
 	const departures = yield lib.fetch({station, when, relative, results, products})
 
 	// render departures
+	if (departures.length === 0) process.stdout.write(chalk.red('No departures.'))
+
 	const table = render.table()
 	for (let dep of departures) table.push([
 		  render.product(dep.type)

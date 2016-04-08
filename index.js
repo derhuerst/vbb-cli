@@ -14,7 +14,7 @@ const config             = require('config')
 
 
 
-const isStationId = (station) => /^\d{7}$/.test(station)
+const isStationId = (s) => /^\d{7}$/.test(s.toString())
 
 const parseStation = (query) => {
 	if (isStationId(query))
@@ -51,15 +51,17 @@ const queryResults = (msg) => new Promise((resolve, reject) =>
 
 
 const allProducts = ['suburban', 'subway', 'tram', 'bus', 'ferry', 'express', 'regional']
-const isValidProduct = (p) => allProducts.indexOf(x) >= 0
+const isValidProduct = (p) => p in util.products.aliases
+const dealiasProduct = (p) => util.products.aliases[p].type
 const reduceProducts = (acc, p) => {
 	acc[p] = true
 	return acc
 }
 const parseProducts = (p) => {
 	if (p === 'all') return allProducts.reduce(reduceProducts, {})
-	if ('string' === typeof p) return p.split(',').map(trim)
-		.filter(isValidProduct).reduce(reduceProducts, {})
+	if (!Array.isArray(p)) p = [p]
+	return p.filter(isValidProduct).map(dealiasProduct)
+		.reduce(reduceProducts, {})
 }
 
 const productColor = (p, s) => util.products[p].ansi
