@@ -80,7 +80,7 @@ const main = so(function* (opt) {
 
 	const table = render.table()
 	for (let dep of departures) table.push([
-		  render.product(dep.type)
+		  render.line(dep.type, dep.line)
 		, render.time(dep.when)
 		, render.station(dep.direction)
 	])

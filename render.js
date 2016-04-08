@@ -7,9 +7,9 @@ const Table    = require('cli-table2')
 
 
 
-const product = (p) => {
+const line = (p, l) => {
 	p = util.products[p]
-	return p.ansi.reduce((acc, c) => acc[c], chalk)(p.short)
+	return p.ansi.reduce((acc, c) => acc[c], chalk)(l._)
 }
 
 const time = (when) => {
@@ -31,4 +31,4 @@ const table = () => new Table({
 
 
 
-module.exports = {product, time, station, table}
+module.exports = {line, time, station, table}
