@@ -2,7 +2,7 @@
 	"name":        "vbb-cli",
 	"description": "A CLI for Berlin & Brandenburg public transport.",
 	"version":     "0.2.0",
-	"bin":         "./bin.js",
+	"bin":         {"vbb-dep": "./dep.js"},
 	"keywords":    ["vbb", "cli", "berlin", "brandenburg", "public transport", "fahrinfo"],
 	"author":      "Jannis R <mail@jannisr.de>",
 	"homepage":    "https://github.com/derhuerst/vbb-cli",
@@ -10,7 +10,7 @@
 	"bugs":        "https://github.com/derhuerst/vbb-cli/issues",
 	"license":     "ISC",
 	"engines" :    {"node": ">=4"},
-	"files":       ["index.js", "bin.js", "render.js", "config/default.json"],
+	"files":       ["index.js", "dep.js", "render.js", "config/default.json"],
 	"dependencies": {
 		"yargs":                     "^4.4",
 		"so":                        "^1.0.1",
