@@ -1,20 +1,35 @@
 'use strict'
 
+const util     = require('vbb-util')
+const kuler    = require('kuler')
 const chalk    = require('chalk')
 const ms       = require('ms')
-const util     = require('vbb-util')
 const Table    = require('cli-table2')
 
 
 
-const line = (p, l) => {
+const product = (p) => {
 	p = util.products[p]
-	return p.ansi.reduce((acc, c) => acc[c], chalk)(l._)
+	return p ? kuler(p.short, p.color) : ''
 }
 
-const time = (when) => {
-	let d = when - Date.now()
+const line = (l) =>
+	(l && util.lines.colors[l.type] && util.lines.colors[l.type][l._])
+	? kuler(l._, util.lines.colors[l.type][l._].bg)
+	: l.metro
+		? kuler(l._, util.lines.colors.metro.bg)
+		: l._
+
+const scheduled = (scheduled) => {
+	const d = scheduled - Date.now()
 	return chalk.cyan((d < 0 ? '-' : '') + ms(Math.abs(d)))
+}
+
+const realtime = (scheduled, realtime) => {
+	if (!realtime) return ''
+	if (Math.abs(realtime - scheduled) / 1000 <= 5) return ''
+	const d = realtime - scheduled
+	return chalk.red((d < 0 ? '-' : '+') + ms(Math.abs(d)))
 }
 
 const station = (name) => chalk.yellow(name)
@@ -31,4 +46,4 @@ const table = () => new Table({
 
 
 
-module.exports = {line, time, station, table}
+module.exports = {product, line, scheduled, realtime, station, table}
