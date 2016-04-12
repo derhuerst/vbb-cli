@@ -73,7 +73,8 @@ const main = so(function* (opt) {
 	const departures = yield lib.departures({station, when, results, products})
 
 	// render departures
-	if (departures.length === 0) process.stdout.write(chalk.red('No departures.'))
+	if (departures.length === 0)
+		process.stdout.write(chalk.red('No departures.'))
 
 	const table = render.table()
 	for (let dep of departures) table.push([
