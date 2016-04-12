@@ -11,6 +11,9 @@ const chalk              = require('chalk')
 const multiselectPrompt  = require('multiselect-prompt')
 const hafas              = require('vbb-hafas')
 const config             = require('config')
+const selectPrompt       = require('select-prompt')
+
+const render             = require('./render')
 
 
 
@@ -88,8 +91,22 @@ const queryProducts = (msg) => new Promise((yay, nay) =>
 
 
 
+const queryRoute = (msg, routes) => {
+	const choices = routes
+		.map((r) => ({title: render.route(r), value: r}))
+	return new Promise((yay, nay) =>
+		selectPrompt(msg, choices)
+		.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
+		.on('submit', yay))
+}
+
+
+
 const departures = (data) =>
 	hafas.departures(config.key, data.station.id, data)
+
+const routes = (data) =>
+	hafas.routes(config.key, data.from.id, data.to.id, data)
 
 
 
@@ -98,5 +115,6 @@ module.exports = {
 	parseWhen,     queryWhen,
 	parseResults,  queryResults,
 	parseProducts, queryProducts,
-	departures
+	queryRoute,
+	departures, routes
 }

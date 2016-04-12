@@ -4,6 +4,7 @@ const util     = require('vbb-util')
 const kuler    = require('kuler')
 const chalk    = require('chalk')
 const ms       = require('ms')
+const moment   = require('moment')
 const Table    = require('cli-table2')
 
 
@@ -11,6 +12,15 @@ const Table    = require('cli-table2')
 const product = (p) => {
 	p = util.products[p]
 	return p ? kuler(p.short, p.color) : ''
+}
+
+const transport = (t, p) => {
+	t = util.lines.legs.types[t]
+	return t
+		? (t.type === 'public'
+			? product(p)
+			: t.unicode)
+		: chalk.gray('?')
 }
 
 const line = (l) =>
@@ -32,6 +42,8 @@ const realtime = (scheduled, realtime) => {
 	return chalk.red((d < 0 ? '-' : '+') + ms(Math.abs(d)))
 }
 
+const time = (when) => moment(when).format('LT')
+
 const station = (name) => chalk.yellow(name)
 
 const table = () => new Table({
@@ -45,5 +57,18 @@ const table = () => new Table({
 })
 
 
+const route = (r) => {
+	const p = r.parts
+	return p.map((p) => transport(p.transport, p.type)).join(' ')
+	+ ' ' + chalk.yellow(ms(p[p.length - 1].end - p[0].start))
+	+ '   ' + chalk.gray(time(p[0].start) + '–' + time(p[p.length - 1].end))
+}
 
-module.exports = {product, line, scheduled, realtime, station, table}
+
+
+module.exports = {
+	product, transport, line,
+	scheduled, realtime, time,
+	station, table,
+	route
+}

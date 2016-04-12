@@ -22,6 +22,7 @@
 		"number-prompt":             "^0.1",
 		"vbb-util":                  "^0.9",
 		"chalk":                     "^1.1.1",
-		"multiselect-prompt":        "^0.2"
+		"multiselect-prompt":        "^0.2",
+		"select-prompt":             "^0.1"
 	}
 }
