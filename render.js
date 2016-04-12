@@ -6,6 +6,7 @@ const chalk    = require('chalk')
 const ms       = require('ms')
 const moment   = require('moment')
 const Table    = require('cli-table2')
+const pad      = require('pad-right')
 
 
 
@@ -64,11 +65,33 @@ const route = (r) => {
 	+ '   ' + chalk.gray(time(p[0].start) + '–' + time(p[p.length - 1].end))
 }
 
+const bar  = chalk.gray('|')
+const node = chalk.gray('•')
+
+const part = (acc, p, i, all) => {
+	const r = []
+	if (i === 0) r.push(node + ' '
+		+ chalk.cyan(time(p.start)) + ' ' + chalk.green(p.from.name))
+	r.push([bar, ' '
+		, chalk.yellow(pad(ms(p.end - p.start), 4, ' '))
+		, transport(p.transport, p.type)
+		, (p.line ? line(p.line) : '')
+		, chalk.gray('-> ') + p.direction
+		, i > 0 ? chalk.gray(ms(p.start - all[i - 1].end) + ' waiting') : ''
+	].join(' '))
+	r.push(node + ' ' + chalk.cyan(time(p.end)) + ' '
+		+ chalk.green(p.to.name))
+	acc += r.join('\n') + '\n'
+	return acc
+}
+
+const routeDetails = (r) => '\n' + r.parts.reduce(part, '') + '\n'
+
 
 
 module.exports = {
 	product, transport, line,
 	scheduled, realtime, time,
 	station, table,
-	route
+	route, routeDetails
 }

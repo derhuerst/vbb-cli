@@ -80,22 +80,12 @@ const main = so(function* (opt) {
 	else products = lib.parseProducts(opt.products)
 
 	const routes = yield lib.routes({from, to, when, results, products})
-
-	// query wich route
-	const route = yield lib.queryRoute('Which route?', routes)
+	let route
+	if (routes.length === 1) route = routes[0]
+	else route = yield lib.queryRoute('Which route?', routes)
 
 	// render route
-	// if (routes.length === 0) process.stdout.write(chalk.red('No routes.'))
-
-	// const table = render.table()
-	// for (let dep of routes) table.push([
-	// 	  render.product(dep.type)
-	// 	, render.line(dep.line)
-	// 	, render.scheduled(dep.when)
-	// 	, render.realtime(dep.when, dep.realtime)
-	// 	, render.station(dep.direction)
-	// ])
-	// process.stdout.write(table.toString() + '\n')
+	process.stdout.write(render.routeDetails(route))
 
 	process.stdin.unref() // todo: remove this hack
 })
