@@ -18,7 +18,6 @@ const opt = {
 	, results:  native.to(argv.results  || argv.r) || 8
 	, products: native.to(argv.products || argv.p, ',') || 'all'
 	, when:     native.to(argv.when     || argv.w) || null
-	, relative: native.to(argv.relative)
 }
 
 
@@ -35,7 +34,6 @@ Options:
     --products  -p  Allowed transportation types. Default: "all"
                     "all" = "suburban,subway,tram,bus,ferry,express,regional"
     --when      -w  A date & time string like "tomorrow 2 pm". Default: now
-    --relative      Display date & time relatively.
 
 `)
 	process.exit(0)
@@ -49,7 +47,7 @@ const showError = function (err) {
 }
 
 const main = so(function* (opt) {
-	let station, when, relative, results, products
+	let station, when, results, products
 
 	// query a station
 	if (!opt.station || opt.station === true)
@@ -62,18 +60,17 @@ const main = so(function* (opt) {
 	if (opt.when === true) when = yield lib.queryWhen('When?')
 	else if ('string' === typeof opt.when) when = lib.parseWhen(opt.when)
 	else when = new Date()
-	relative = opt.relative === true
 
 	// nr of results
-	if (opt.results === true) results = yield lib.queryResults('How many results?')
-	else results = lib.parseResults(opt.results)
+	if (opt.results === true) results = yield lib.queryResults('How many results?', 8)
+	else results = lib.parseResults(opt.results, 8)
 
 	// means of transport
 	if (opt.products === true)
 		products = yield lib.queryProducts('Which means of transport?')
 	else products = lib.parseProducts(opt.products)
 
-	const departures = yield lib.fetch({station, when, relative, results, products})
+	const departures = yield lib.departures({station, when, results, products})
 
 	// render departures
 	if (departures.length === 0) process.stdout.write(chalk.red('No departures.'))

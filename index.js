@@ -26,27 +26,28 @@ const parseStation = (query) => {
 
 const suggestStations = (input) => autocomplete(input, 5)
 	.map((r) => ({title: r.name, value: r.id}))
-const queryStation = (msg) => new Promise((resolve, reject) =>
-	autocompletePrompt(msg, suggestStations).on('submit', resolve)
-	.on('abort', (v) => reject(new Error(`Rejected with ${v}.`))))
+const queryStation = (msg) => new Promise((yay, nay) =>
+	autocompletePrompt(msg, suggestStations).on('submit', yay)
+	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`))))
 
 
 
 const parseWhen = parseTime
 
-const queryWhen = (msg) => new Promise((resolve, reject) =>
-	datePrompt(msg).on('submit', (v) => resolve(new Date(v)))
-	.on('abort', (v) => reject(new Error(`Rejected with ${v}.`))))
+const queryWhen = (msg) => new Promise((yay, nay) =>
+	datePrompt(msg).on('submit', (v) => yay(new Date(v)))
+	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`))))
 
 
 
-const parseResults = (r) => {
+const parseResults = (r, d) => {
 	r = parseInt(r)
-	return (Number.isNaN(r) || !r) ? 3 : r
+	return (Number.isNaN(r) || !r) ? d : r
 }
-const queryResults = (msg) => new Promise((resolve, reject) =>
-	numberPrompt(msg, {min: 1, value: 3, max: 10}).on('submit', resolve)
-	.on('abort', (v) => reject(new Error(`Rejected with ${v}.`))))
+const queryResults = (msg, d) => new Promise((yay, nay) =>
+	numberPrompt(msg, {min: 1, value: d, max: 10})
+	.on('submit', yay)
+	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`))))
 
 
 
@@ -77,17 +78,18 @@ const productChoices = allProducts.map((name) => {
 	}
 })
 
-const queryProducts = (msg) => new Promise((resolve, reject) =>
+const queryProducts = (msg) => new Promise((yay, nay) =>
 	multiselectPrompt(msg, productChoices)
-	.on('abort', (v) => reject(new Error(`Rejected with ${v}.`)))
-	.on('submit', (products) => resolve(products.reduce((acc, p) => {
+	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
+	.on('submit', (products) => yay(products.reduce((acc, p) => {
 		acc[p.value] = p.selected
 		return acc
 	}, {}))))
 
 
 
-const fetch = (data) => hafas.departures(config.key, data.station.id, data)
+const departures = (data) =>
+	hafas.departures(config.key, data.station.id, data)
 
 
 
@@ -96,5 +98,5 @@ module.exports = {
 	parseWhen,     queryWhen,
 	parseResults,  queryResults,
 	parseProducts, queryProducts,
-	fetch
+	departures
 }
