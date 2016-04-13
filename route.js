@@ -25,7 +25,7 @@ const opt = {
 
 if (opt.help === true) {
 	process.stdout.write(`
-vbb [from] [to] [options]
+vbb-route [from] [to] [options]
 
 Arguments:
     from            Station number (e.g. 9023201) or query (e.g. "Zoo").

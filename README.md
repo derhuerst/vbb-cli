@@ -2,58 +2,52 @@
 
 **Easily the most awesome public transport CLI on the planet.**
 
-[![vbb-cli 0.2.0](https://asciinema.org/a/25199.png)](https://asciinema.org/a/25199)
+[![asciicast](https://asciinema.org/a/42117.png)](https://asciinema.org/a/42117)
 
-*vbb-cli* is a command line client for the **Berlin & Brandenburg public transport (VBB) API**. It written in CoffeeScript and uses the [`vbb` API client library](https://github.com/derhuerst/vbb).
+*vbb-cli* is a command line client for the **Berlin & Brandenburg public transport (VBB) API**.
 
 [![npm version](https://img.shields.io/npm/v/vbb-cli.svg)](https://www.npmjs.com/package/vbb-cli)
+[![build status](https://img.shields.io/travis/derhuerst/vbb-cli.svg)](https://travis-ci.org/derhuerst/vbb-cli)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-cli.svg)](https://david-dm.org/derhuerst/vbb-cli)
+![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-cli.svg)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-cli.svg)
 
 
-
 ## Installing
-
-
-### globally
-
-This is the recommended way.
 
 ```shell
 npm install -g vbb-cli
 ```
 
 
-### locally
-
-You can also try out *vbb-cli* without polluting your global module space.
-
-```shell
-npm install vbb-cli
-ln -s node_modules/.bin/vbb ./vbb
-```
-
-You have to use `./vbb` instead of `vbb` now.
-
-
-
 ## Usage
 
 ```
-  Usage: vbb [options]
+vbb-dep [station] [options]
 
-  Options:
+Arguments:
+    station         Station number (like "9023201") or search string (like "Zoo").
 
-    -h, --help             output usage information
-    -V, --version          output the version number
-    -f, --from [station]   Where the routes shall begin.
-    -t, --to [station]     Where the routes shall end.
-    -r, --results [n]      The number of routes.
-    -p, --products [list]  Allowed transportation types.
+Options:
+    --results   -r  The number of departures to show. Default: 3
+    --products  -p  Allowed transportation types. Default: "all"
+                    "all" = "suburban,subway,tram,bus,ferry,express,regional"
+    --when      -w  A date & time string like "tomorrow 2 pm". Default: now
 ```
 
-If you don't pass the options, *vbb-cli* will ask for them interactively.
+```
+vbb-route [from] [to] [options]
 
+Arguments:
+    from            Station number (e.g. 9023201) or query (e.g. "Zoo").
+    to              Station number (e.g. 9023201) or query (e.g. "Zoo").
+
+Options:
+    --results   -r  The number of departures to show. Default: 3
+    --products  -p  Allowed transportation types. Default: "all"
+                    "all" = "suburban,subway,tram,bus,ferry,express,regional"
+    --when      -w  A date & time string like "tomorrow 2 pm". Default: now
+```
 
 
 ## Contributing

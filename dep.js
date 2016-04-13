@@ -24,7 +24,7 @@ const opt = {
 
 if (opt.help === true) {
 	process.stdout.write(`
-vbb [station] [options]
+vbb-dep [station] [options]
 
 Arguments:
     station         Station number (like "9023201") or search string (like "Zoo").
