@@ -1,6 +1,6 @@
 'use strict'
 
-const staticData         = require('vbb-static')
+const stations           = require('vbb-stations')
 const autocomplete       = require('vbb-stations-autocomplete')
 const autocompletePrompt = require('cli-autocomplete')
 const parseTime          = require('parse-messy-time')
@@ -21,7 +21,7 @@ const isStationId = (s) => /^\d{7}$/.test(s.toString())
 
 const parseStation = (query) => {
 	if (isStationId(query))
-		return staticData.stations(true, parseInt(query)) // search by id
+		return stations(true, parseInt(query)) // search by id
 	let results = autocomplete(query, 1)
 	if (results.length > 0) return Promise.resolve(results[0])
 	else throw new Error(`Could not anything by "${query}".`)
