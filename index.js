@@ -23,7 +23,7 @@ const parseStation = (query) => {
 	if (isStationId(query))
 		return stations(true, parseInt(query)) // search by id
 	let results = autocomplete(query, 1)
-	if (results.length > 0) return Promise.resolve(results[0])
+	if (results.length > 0) return Promise.resolve(results)
 	else throw new Error(`Could not anything by "${query}".`)
 }
 

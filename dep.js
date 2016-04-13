@@ -13,7 +13,7 @@ const render    = require('./render')
 
 const argv = yargs.argv
 const opt = {
-	  station:  native.to(argv._.pop())
+	  station:  native.to(argv._.shift())
 	, help:     native.to(argv.help     || argv.h)
 	, results:  native.to(argv.results  || argv.r) || 8
 	, products: native.to(argv.products || argv.p, ',') || 'all'
