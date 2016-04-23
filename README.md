@@ -19,6 +19,12 @@
 npm install -g vbb-cli
 ```
 
+You need to [get an API key](http://www.vbb.de/de/article/wissenswertes/webservices/schnittstellen-fuer-webentwickler/5070.html#rest-schnittstelle) and export it ([#4](https://github.com/derhuerst/vbb-cli/issues/4)):
+
+```shell
+set -x NODE_CONFIG '{"key": "<key>"}'
+```
+
 
 ## Usage
 
