@@ -44,7 +44,8 @@ Options:
 
 
 const showError = function (err) {
-	console.error(err.stack)
+	process.stderr.write(chalk.red(err.message) + '\n')
+	if (process.env.NODE_DEBUG === 'true') console.error(err.stack)
 	process.exit(err.code || 1)
 }
 
