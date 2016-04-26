@@ -17,7 +17,7 @@
 		"so":                        "^1.0.1",
 		"chalk":                     "^1.1.3",
 		"vbb-stations":              "^0.3",
-		"vbb-stations-autocomplete": "^0.6.1",
+		"vbb-stations-autocomplete": "^0.7",
 		"cli-autocomplete":          "^0.2",
 		"parse-messy-time":          "^1.2.2",
 		"date-prompt":               "^0.6",
