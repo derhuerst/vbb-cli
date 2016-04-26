@@ -5,6 +5,7 @@ const yargs     = require('yargs')
 const native    = require('cli-native')
 const so        = require('so')
 const chalk     = require('chalk')
+const locate    = require('location')
 
 const lib       = require('./index')
 const render    = require('./render')
@@ -15,6 +16,7 @@ const argv = yargs.argv
 const opt = {
 	  station:  native.to(argv._.shift())
 	, help:     native.to(argv.help     || argv.h)
+	, location: native.to(argv.location || argv.l)
 	, results:  native.to(argv.results  || argv.r) || 8
 	, products: native.to(argv.products || argv.p, ',') || 'all'
 	, when:     native.to(argv.when     || argv.w) || null
@@ -30,6 +32,7 @@ Arguments:
     station         Station number (like "9023201") or search string (like "Zoo").
 
 Options:
+    --location  -l  Use current location. OS X only.
     --results   -r  The number of departures to show. Default: 3
     --products  -p  Allowed transportation types. Default: "all"
                     "all" = "suburban,subway,tram,bus,ferry,express,regional"
@@ -49,8 +52,10 @@ const showError = function (err) {
 const main = so(function* (opt) {
 	let station, when, results, products
 
-	// query a station
-	if (!opt.station || opt.station === true)
+	if (opt.location === true) {
+		try {station = yield lib.queryCloseStations('Where?', yield locate())}
+		catch (err) { showError(err) }
+	} else if (!opt.station || opt.station === true)
 		station = yield lib.queryStation('Where?')
 	else station = opt.station
 	try { station = (yield lib.parseStation(station))[0] }

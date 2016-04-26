@@ -3,6 +3,7 @@
 const stations           = require('vbb-stations')
 const autocomplete       = require('vbb-stations-autocomplete')
 const autocompletePrompt = require('cli-autocomplete')
+const distance           = require('gps-distance')
 const parseTime          = require('parse-messy-time')
 const datePrompt         = require('date-prompt')
 const numberPrompt       = require('number-prompt')
@@ -32,6 +33,30 @@ const suggestStations = (input) => autocomplete(input, 5)
 const queryStation = (msg) => new Promise((yay, nay) =>
 	autocompletePrompt(msg, suggestStations).on('submit', yay)
 	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`))))
+
+const closeStations = (loc) => new Promise((yay, nay) => {
+	const radius = 1 // 1km
+	const lat = loc.latitude
+	const lon = loc.longitude
+	const results = []
+	stations('all')
+	.on('data', (s) => {
+		const d = distance(lat, lon, s.latitude, s.longitude)
+		if (d <= radius) results.push(Object.assign(s, {distance: d}))
+	})
+	.on('end', () => yay(results
+		.sort((a, b) => a.distance - b.distance)
+		.slice(0, 3)))
+	.on('error', nay)
+})
+
+const queryCloseStations = (msg, loc) => closeStations(loc)
+	.then((stations) => new Promise((yay, nay) => {
+		stations = stations.map((s) => ({title: s.name, value: s.id}))
+		selectPrompt(msg, stations)
+		.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
+		.on('submit', yay)
+	}))
 
 
 
@@ -112,6 +137,7 @@ const routes = (data) =>
 
 module.exports = {
 	parseStation,  queryStation, isStationId, suggestStations,
+	closeStations, queryCloseStations,
 	parseWhen,     queryWhen,
 	parseResults,  queryResults,
 	parseProducts, queryProducts,
