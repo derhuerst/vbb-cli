@@ -2,6 +2,7 @@
 
 const stations           = require('vbb-stations')
 const autocomplete       = require('vbb-stations-autocomplete')
+const shorten            = require('vbb-short-station-name')
 const autocompletePrompt = require('cli-autocomplete')
 const distance           = require('gps-distance')
 const parseTime          = require('parse-messy-time')
@@ -29,7 +30,7 @@ const parseStation = (query) => {
 }
 
 const suggestStations = (input) => autocomplete(input, 5)
-	.map((r) => ({title: r.name, value: r.id}))
+	.map((r) => ({title: shorten(r.name), value: r.id}))
 const queryStation = (msg) => new Promise((yay, nay) =>
 	autocompletePrompt(msg, suggestStations).on('submit', yay)
 	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`))))
@@ -52,8 +53,10 @@ const closeStations = (loc) => new Promise((yay, nay) => {
 
 const queryCloseStations = (msg, loc) => closeStations(loc)
 	.then((stations) => new Promise((yay, nay) => {
-		stations = stations.map((s) => ({title: s.name, value: s.id}))
-		selectPrompt(msg, stations)
+		selectPrompt(msg, stations.map((s) => ({
+			  title: shorten(s.name)
+			, value: s.id
+		})))
 		.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
 		.on('submit', yay)
 	}))

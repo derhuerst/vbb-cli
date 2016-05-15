@@ -33,7 +33,8 @@
 		"ms":                        "^0.7.1",
 		"moment":                    "^2.12",
 		"cli-table2":                "^0.2",
-		"pad-right":                 "^0.2.2"
+		"pad-right":                 "^0.2.2",
+		"vbb-short-station-name":    "^0.1"
 	},
 	"scripts": {
 		"test": "./dep.js 9009103 --when 'tomorrow 2pm' > /dev/null"
