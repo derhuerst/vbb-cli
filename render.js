@@ -10,25 +10,20 @@ const pad      = require('pad-right')
 
 
 
-const product = (p) => {
-	if (p && p.product && p.product.type)
-		return kuler(p.product.type.short, p.product.type.color)
-	else return ''
-}
+const product = (p) =>
+	p && p.short && p.color ? kuler(p.short, p.color) : ''
 
 const transport = (p) => {
-	t = util.lines.legs.types[p.type]
-	if (t) {
-		if (t.type === 'public') return product(p)
-		else return t.unicode
-	} else return chalk.gray('?')
+	if (p && p.product) return product(p.product.type) + ' ' + line(p.product)
+	if (p.type === 'walking') return util.lines.legs.types.walk.unicode
+	return chalk.gray('?')
 }
 
 const line = (l) => {
-	if (l && util.lines.colors[l.type] && util.lines.colors[l.type][l._])
-		return kuler(l._, util.lines.colors[l.type][l._].bg)
+	if (util.lines.colors[l.type.type] && util.lines.colors[l.type.type][l.line])
+		return kuler(l.line, util.lines.colors[l.type.type][l.line].bg)
 	if (l.metro) return kuler(l._, util.lines.colors.metro.bg)
-	return l._
+	return chalk.gray(l.line)
 }
 
 const scheduled = (scheduled) => {
