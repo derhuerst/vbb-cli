@@ -13,16 +13,16 @@ const pad      = require('pad-right')
 const product = (p) =>
 	p && p.short && p.color ? kuler(p.short, p.color) : ''
 
-const transport = (p) => {
-	if (p && p.product) return product(p.product.type) + ' ' + line(p.product)
-	if (p.type === 'walking') return util.lines.legs.types.walk.unicode
+const transport = (d) => {
+	if (d && d.product) return product(d.product.type) + ' ' + line(d.product)
+	if (d.type === 'walking') return util.lines.legs.types.walk.unicode
 	return chalk.gray('?')
 }
 
 const line = (l) => {
 	if (util.lines.colors[l.type.type] && util.lines.colors[l.type.type][l.line])
 		return kuler(l.line, util.lines.colors[l.type.type][l.line].bg)
-	if (l.metro) return kuler(l._, util.lines.colors.metro.bg)
+	if (l.metro) return kuler(l.line, util.lines.colors.metro.bg)
 	return chalk.gray(l.line)
 }
 
