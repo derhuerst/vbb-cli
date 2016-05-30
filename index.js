@@ -12,7 +12,6 @@ const util               = require('vbb-util')
 const chalk              = require('chalk')
 const multiselectPrompt  = require('multiselect-prompt')
 const hafas              = require('vbb-hafas')
-const config             = require('config')
 const selectPrompt       = require('select-prompt')
 
 const render             = require('./render')
@@ -131,10 +130,10 @@ const queryRoute = (msg, routes) => {
 
 
 const departures = (data) =>
-	hafas.departures(config.key, data.station.id, data)
+	hafas.departures(data.station.id, data)
 
 const routes = (data) =>
-	hafas.routes(config.key, data.from.id, data.to.id, data)
+	hafas.routes(data.from.id, data.to.id, data)
 
 
 

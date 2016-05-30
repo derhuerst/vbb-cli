@@ -10,7 +10,7 @@
 	"bugs":        "https://github.com/derhuerst/vbb-cli/issues",
 	"license":     "ISC",
 	"engines" :    {"node": ">=4"},
-	"files":       ["index.js", "dep.js", "route.js", "render.js", "config/default.json"],
+	"files":       ["index.js", "dep.js", "route.js", "render.js"],
 	"dependencies": {
 		"yargs":                     "^4.4",
 		"cli-native":                "^1",
@@ -27,7 +27,6 @@
 		"vbb-util":                  "^0.9.1",
 		"multiselect-prompt":        "^0.2",
 		"vbb-hafas":                 "^0.7.1",
-		"config":                    "^1.20.1",
 		"select-prompt":             "^0.1",
 		"kuler":                     "^0",
 		"ms":                        "^0.7.1",

@@ -11,25 +11,25 @@ const pad      = require('pad-right')
 
 
 const product = (p) => {
-	p = util.products[p]
-	return p ? kuler(p.short, p.color) : ''
+	if (p && p.product && p.product.type)
+		return kuler(p.product.type.short, p.product.type.color)
+	else return ''
 }
 
-const transport = (t, p) => {
-	t = util.lines.legs.types[t]
-	return t
-		? (t.type === 'public'
-			? product(p)
-			: t.unicode)
-		: chalk.gray('?')
+const transport = (p) => {
+	t = util.lines.legs.types[p.type]
+	if (t) {
+		if (t.type === 'public') return product(p)
+		else return t.unicode
+	} else return chalk.gray('?')
 }
 
-const line = (l) =>
-	(l && util.lines.colors[l.type] && util.lines.colors[l.type][l._])
-	? kuler(l._, util.lines.colors[l.type][l._].bg)
-	: l.metro
-		? kuler(l._, util.lines.colors.metro.bg)
-		: l._
+const line = (l) => {
+	if (l && util.lines.colors[l.type] && util.lines.colors[l.type][l._])
+		return kuler(l._, util.lines.colors[l.type][l._].bg)
+	if (l.metro) return kuler(l._, util.lines.colors.metro.bg)
+	return l._
+}
 
 const scheduled = (scheduled) => {
 	const d = scheduled - Date.now()
@@ -60,7 +60,7 @@ const table = () => new Table({
 
 const route = (r) => {
 	const p = r.parts
-	return p.map((p) => transport(p.transport, p.type)).join(' ')
+	return p.map(transport).join(' ')
 	+ ' ' + chalk.yellow(ms(p[p.length - 1].end - p[0].start))
 	+ '   ' + chalk.gray(time(p[0].start) + '–' + time(p[p.length - 1].end))
 }
@@ -75,7 +75,7 @@ const part = (acc, p, i, all) => {
 	])
 	acc.push([bar
 		, chalk.yellow(pad(ms(p.end - p.start), 3, ' '))
-		+ ' ' + transport(p.transport, p.type)
+		+ ' ' + transport(p)
 		+ (p.line ? ' ' + line(p.line) : '')
 		, chalk.gray(' -> ') + p.direction
 		, i > 0 ? chalk.gray(ms(p.start - all[i - 1].end) + ' waiting') : ''

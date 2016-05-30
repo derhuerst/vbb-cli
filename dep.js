@@ -85,7 +85,7 @@ const main = so(function* (opt) {
 	const table = render.table()
 	for (let dep of departures) table.push([
 		  render.product(dep.type)
-		, render.line(dep.line)
+		, render.line(dep.product.type)
 		, render.scheduled(dep.when)
 		, render.realtime(dep.when, dep.realtime)
 		, render.station(dep.direction)
