@@ -26,16 +26,9 @@ const line = (l) => {
 	return chalk.gray(l.line)
 }
 
-const scheduled = (scheduled) => {
-	const d = scheduled - Date.now()
+const when = (when) => {
+	const d = when - Date.now()
 	return chalk.cyan((d < 0 ? '-' : '') + ms(Math.abs(d)))
-}
-
-const realtime = (scheduled, realtime) => {
-	if (!realtime) return ''
-	if (Math.abs(realtime - scheduled) / 1000 <= 5) return ''
-	const d = realtime - scheduled
-	return chalk.red((d < 0 ? '-' : '+') + ms(Math.abs(d)))
 }
 
 const time = (when) => moment(when).format('LT')
@@ -89,7 +82,7 @@ const routeDetails = (r) =>
 
 module.exports = {
 	product, transport, line,
-	scheduled, realtime, time,
+	when, time,
 	station, table,
 	route, routeDetails
 }

@@ -1,17 +1,13 @@
 'use strict'
 
-const stations           = require('vbb-stations')
-const autocomplete       = require('vbb-stations-autocomplete')
-const shorten            = require('vbb-short-station-name')
+const client = require('vbb-client')
 const autocompletePrompt = require('cli-autocomplete')
-const distance           = require('gps-distance')
 const parseTime          = require('parse-messy-time')
 const datePrompt         = require('date-prompt')
 const numberPrompt       = require('number-prompt')
 const util               = require('vbb-util')
 const chalk              = require('chalk')
 const multiselectPrompt  = require('multiselect-prompt')
-const hafas              = require('vbb-hafas')
 const selectPrompt       = require('select-prompt')
 
 const render             = require('./render')
@@ -21,40 +17,34 @@ const render             = require('./render')
 const isStationId = (s) => /^\d{7}$/.test(s.toString())
 
 const parseStation = (query) => {
-	if (isStationId(query))
-		return stations(true, parseInt(query)) // search by id
-	let results = autocomplete(query, 1)
-	if (results.length > 0) return Promise.resolve(results)
-	else throw new Error(`Could not anything by "${query}".`)
+	if (isStationId(query)) return client.station(+query)
+	return client.stations({query, results: 1})
+	.then((results) => {
+		if (results.length > 0) return results[0]
+		throw new Error('Station not found.')
+	}, (err) => err)
 }
 
-const suggestStations = (input) => autocomplete(input, 5)
-	.map((r) => ({title: shorten(r.name), value: r.id}))
+const suggestStations = (input) =>
+	client.station({query: input, completion: true, results: 5})
+	.then((stations) => stations.map((s) => ({
+		title: s.name, value: s.id
+	})), (err) => err)
 const queryStation = (msg) => new Promise((yay, nay) =>
 	autocompletePrompt(msg, suggestStations).on('submit', yay)
 	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`))))
 
-const closeStations = (loc) => new Promise((yay, nay) => {
-	const radius = 1 // 1km
-	const lat = loc.latitude
-	const lon = loc.longitude
-	const results = []
-	stations('all')
-	.on('data', (s) => {
-		const d = distance(lat, lon, s.latitude, s.longitude)
-		if (d <= radius) results.push(Object.assign(s, {distance: d}))
+const closeStations = (loc) =>
+	client.nearby({
+		latitude:  loc.latitude,
+		longitude: loc.longitude,
+		results:   3
 	})
-	.on('end', () => yay(results
-		.sort((a, b) => a.distance - b.distance)
-		.slice(0, 3)))
-	.on('error', nay)
-})
 
 const queryCloseStations = (msg, loc) => closeStations(loc)
 	.then((stations) => new Promise((yay, nay) => {
 		selectPrompt(msg, stations.map((s) => ({
-			  title: shorten(s.name)
-			, value: s.id
+			  title: s.name, value: s.id
 		})))
 		.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
 		.on('submit', yay)
@@ -130,10 +120,10 @@ const queryRoute = (msg, routes) => {
 
 
 const departures = (data) =>
-	hafas.departures(data.station.id, data)
+	client.departures(data.station.id, data)
 
 const routes = (data) =>
-	hafas.routes(data.from.id, data.to.id, data)
+	client.routes(data.from.id, data.to.id, data)
 
 
 
