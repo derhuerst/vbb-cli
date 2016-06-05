@@ -56,14 +56,14 @@ const main = so(function* (opt) {
 	if (!opt.from || opt.from === true)
 		from = yield lib.queryStation('From where?')
 	else from = opt.from
-	try { from = (yield lib.parseStation(from))[0] }
+	try { from = (yield lib.parseStation(from)) }
 	catch (err) { showError(err) }
 
 	// query the destination
 	if (!opt.to || opt.to === true)
 		to = yield lib.queryStation('To where?')
 	else to = opt.to
-	try { to = (yield lib.parseStation(to))[0] }
+	try { to = (yield lib.parseStation(to)) }
 	catch (err) { showError(err) }
 
 	// query date & time

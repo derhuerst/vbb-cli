@@ -59,7 +59,7 @@ const main = so(function* (opt) {
 	} else if (!opt.station || opt.station === true)
 		station = yield lib.queryStation('Where?')
 	else station = opt.station
-	try { station = (yield lib.parseStation(station))[0] }
+	try { station = (yield lib.parseStation(station)) }
 	catch (err) { showError(err) }
 
 	// query date & time
@@ -86,8 +86,7 @@ const main = so(function* (opt) {
 	for (let dep of departures) table.push([
 		  render.product(dep.product.type)
 		, render.line(dep.product)
-		, render.scheduled(dep.when)
-		, render.realtime(dep.when, dep.realtime)
+		, render.when(dep.when)
 		, render.station(dep.direction)
 	])
 	process.stdout.write(table.toString() + '\n')
