@@ -26,7 +26,7 @@ const parseStation = (query) => {
 }
 
 const suggestStations = (input) =>
-	client.station({query: input, completion: true, results: 5})
+	client.stations({query: input, completion: true, results: 5})
 	.then((stations) => stations.map((s) => ({
 		title: s.name, value: s.id
 	})), (err) => err)

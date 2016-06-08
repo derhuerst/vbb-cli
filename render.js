@@ -48,7 +48,7 @@ const table = () => new Table({
 
 const route = (r) => {
 	const p = r.parts
-	return p.map(transport).join(' ')
+	return p.map(transport).join(chalk.gray(', '))
 	+ ' ' + chalk.yellow(ms(p[p.length - 1].end - p[0].start))
 	+ '   ' + chalk.gray(time(p[0].start) + '–' + time(p[p.length - 1].end))
 }
