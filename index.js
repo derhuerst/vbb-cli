@@ -60,12 +60,12 @@ const queryWhen = (msg) => new Promise((yay, nay) =>
 
 
 
-const parseResults = (r, d) => {
-	r = parseInt(r)
-	return (Number.isNaN(r) || !r) ? d : r
+const parseDuration = (x, d) => {
+	x = parseInt(x)
+	return (Number.isNaN(x) || !x) ? d : x
 }
-const queryResults = (msg, d) => new Promise((yay, nay) =>
-	numberPrompt(msg, {min: 1, value: d, max: 10})
+const queryDuration = (msg, d) => new Promise((yay, nay) =>
+	numberPrompt(msg, {min: 1, value: d, max: 15})
 	.on('submit', yay)
 	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`))))
 
@@ -131,7 +131,7 @@ module.exports = {
 	parseStation,  queryStation, isStationId, suggestStations,
 	closeStations, queryCloseStations,
 	parseWhen,     queryWhen,
-	parseResults,  queryResults,
+	parseDuration, queryDuration,
 	parseProducts, queryProducts,
 	queryRoute,
 	departures, routes

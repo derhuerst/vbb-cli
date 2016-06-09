@@ -17,8 +17,7 @@ const opt = {
 	  station:  native.to(argv._.shift())
 	, help:     native.to(argv.help     || argv.h)
 	, location: native.to(argv.location || argv.l)
-	, results:  native.to(argv.results  || argv.r) || 8
-	, products: native.to(argv.products || argv.p, ',') || 'all'
+	, duration: native.to(argv.duration || argv.d) || 15
 	, when:     native.to(argv.when     || argv.w) || null
 }
 
@@ -33,9 +32,7 @@ Arguments:
 
 Options:
     --location  -l  Use current location. OS X only.
-    --results   -r  The number of departures to show. Default: 3
-    --products  -p  Allowed transportation types. Default: "all"
-                    "all" = "suburban,subway,tram,bus,ferry,express,regional"
+    --duration  -d  Show departures for the next n minutes. Default: 15
     --when      -w  A date & time string like "tomorrow 2 pm". Default: now
 
 `)
@@ -51,7 +48,7 @@ const showError = function (err) {
 }
 
 const main = so(function* (opt) {
-	let station, when, results, products
+	let station, when, duration, products
 
 	if (opt.location === true) {
 		try {station = yield lib.queryCloseStations('Where?', yield locate())}
@@ -67,16 +64,16 @@ const main = so(function* (opt) {
 	else if ('string' === typeof opt.when) when = lib.parseWhen(opt.when)
 	else when = new Date()
 
-	// nr of results
-	if (opt.results === true) results = yield lib.queryResults('How many results?', 8)
-	else results = lib.parseResults(opt.results, 8)
+	// duration
+	if (opt.duration === true) duration = yield lib.queryDuration('Show departures for how many minutes?', 15)
+	else duration = lib.parseDuration(opt.duration, 15)
 
 	// means of transport
 	if (opt.products === true)
 		products = yield lib.queryProducts('Which means of transport?')
 	else products = lib.parseProducts(opt.products)
 
-	const departures = yield lib.departures({station, when, results, products})
+	const departures = yield lib.departures({station, when, duration, products})
 
 	// render departures
 	if (departures.length === 0)
