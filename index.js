@@ -18,18 +18,24 @@ const isStationId = (s) => /^\d{7}$/.test(s.toString())
 
 const parseStation = (query) => {
 	if (isStationId(query)) return client.station(+query)
-	return client.stations({query, results: 1})
-	.then((results) => {
-		if (results.length > 0) return results[0]
-		throw new Error('Station not found.')
-	}, (err) => err)
+	return new Promise((yay, nay) => {
+		let matched = false
+		client.stations({query, results: 1})
+		.on('error', nay)
+		.on('data', (s) => {matched = true; yay(s)})
+		.on('end', () => {
+			if (!matched) nay(new Error('Station not found.'))
+		})
+	})
 }
 
-const suggestStations = (input) =>
-	client.stations({query: input, completion: true, results: 5})
+const suggestStations = (input) => {
+	if (!input || input === '') return Promise.resolve([])
+	return client.stations({query: input, completion: true, results: 5})
 	.then((stations) => stations.map((s) => ({
 		title: s.name, value: s.id
 	})), (err) => err)
+}
 const queryStation = (msg) => new Promise((yay, nay) =>
 	autocompletePrompt(msg, suggestStations).on('submit', yay)
 	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`))))
