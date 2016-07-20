@@ -42,6 +42,7 @@ Options:
 
 
 const showError = function (err) {
+	if (process.env.NODE_DEBUG === 'vbb-cli') console.error(err)
 	process.stderr.write(chalk.red(err.message) + '\n')
 	if (process.env.NODE_DEBUG === 'true') console.error(err.stack)
 	process.exit(err.code || 1)

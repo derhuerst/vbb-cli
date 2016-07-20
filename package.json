@@ -17,7 +17,7 @@
 		"so":                        "^1.0.1",
 		"chalk":                     "^1.1.3",
 		"location":                  "derhuerst/location",
-		"vbb-client": "^0.1",
+		"vbb-client": "^0.3.5",
 		"vbb-stations":              "^1",
 		"vbb-stations-autocomplete": "^0.9",
 		"cli-autocomplete":          "^0.3",
