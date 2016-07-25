@@ -18,8 +18,6 @@
 		"chalk":                     "^1.1.3",
 		"location":                  "derhuerst/location",
 		"vbb-client": "^0.3.5",
-		"vbb-stations":              "^1",
-		"vbb-stations-autocomplete": "^0.9",
 		"cli-autocomplete":          "^0.3",
 		"gps-distance":              "^0.0.4",
 		"parse-messy-time":          "^2",
@@ -27,14 +25,12 @@
 		"number-prompt":             "^0.1",
 		"vbb-util":                  "^0.10",
 		"multiselect-prompt":        "^0.2",
-		"vbb-hafas":                 "^0.14",
 		"select-prompt":             "^0.2",
 		"kuler":                     "^0",
 		"ms":                        "^0.7.1",
 		"moment":                    "^2.12",
 		"cli-table2":                "^0.2",
-		"pad-right":                 "^0.2.2",
-		"vbb-short-station-name":    "^0.1"
+		"pad-right":                 "^0.2.2"
 	},
 	"scripts": {
 		"test": "./dep.js 9009103 --when 'tomorrow 2pm' > /dev/null"
