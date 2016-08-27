@@ -10,7 +10,7 @@
 [![build status](https://img.shields.io/travis/derhuerst/vbb-cli.svg)](https://travis-ci.org/derhuerst/vbb-cli)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-cli.svg)](https://david-dm.org/derhuerst/vbb-cli)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-cli.svg)
-![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-cli.svg)
+[![gitter channel](https://badges.gitter.im/derhuerst/vbb-rest.svg)](https://gitter.im/derhuerst/vbb-rest)
 
 
 ## Installing
