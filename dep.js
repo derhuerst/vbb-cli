@@ -88,8 +88,6 @@ const main = so(function* (opt) {
 		, render.station(dep.direction)
 	])
 	process.stdout.write(table.toString() + '\n')
-
-	process.stdin.unref() // todo: remove this hack
 })
 
 main(opt).catch(showError)

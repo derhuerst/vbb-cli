@@ -88,8 +88,6 @@ const main = so(function* (opt) {
 
 	// render route
 	process.stdout.write(render.routeDetails(route))
-
-	process.stdin.unref() // todo: remove this hack
 })
 
 main(opt).catch(showError)
