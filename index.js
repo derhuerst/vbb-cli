@@ -14,7 +14,7 @@ const render             = require('./render')
 
 
 
-const isStationId = (s) => /^\d{7}$/.test(s.toString())
+const isStationId = (s) => /^\d{12}$/.test(s.toString())
 
 const parseStation = (query) => {
 	if (isStationId(query)) return client.station(+query)

@@ -28,7 +28,7 @@ if (opt.help === true) {
 vbb-dep [station] [options]
 
 Arguments:
-    station         Station number (like "9023201") or search string (like "Zoo").
+    station         Station number (like "900000023201") or search string (like "Zoo").
 
 Options:
     --location  -l  Use current location. OS X only.

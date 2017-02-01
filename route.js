@@ -28,8 +28,8 @@ if (opt.help === true) {
 vbb-route [from] [to] [options]
 
 Arguments:
-    from            Station number (e.g. 9023201) or query (e.g. "Zoo").
-    to              Station number (e.g. 9023201) or query (e.g. "Zoo").
+    from            Station number (e.g. 900000023201) or query (e.g. "Zoo").
+    to              Station number (e.g. 900000023201) or query (e.g. "Zoo").
 
 Options:
     --results   -r  The number of departures to show. Default: 3
