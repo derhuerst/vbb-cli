@@ -10,20 +10,23 @@ const pad      = require('pad-right')
 
 
 
-const product = (p) =>
-	p && p.short && p.color ? kuler(p.short, p.color) : ''
+const product = (p) => {
+	p = util.products[p]
+	return p && p.short && p.color ? kuler(p.short, p.color) : ''
+}
 
 const transport = (d) => {
-	if (d && d.product) return product(d.product.type) + ' ' + line(d.product)
+	if (d && d.line) return product(d.line.product)
 	if (d.type === 'walking') return util.lines.legs.types.walk.unicode
 	return chalk.gray('?')
 }
 
 const line = (l) => {
-	if (util.lines.colors[l.type.type] && util.lines.colors[l.type.type][l.line])
-		return kuler(l.line, util.lines.colors[l.type.type][l.line].bg)
-	if (l.metro) return kuler(l.line, util.lines.colors.metro.bg)
-	return chalk.gray(l.line)
+	if (util.lines.colors[l.product] && util.lines.colors[l.product][l.name]) {
+		return kuler(l.name, util.lines.colors[l.product][l.name].bg)
+	}
+	if (l.metro) return kuler(l.name, util.lines.colors.metro.bg)
+	return chalk.gray(l.name)
 }
 
 const when = (when) => {
@@ -49,8 +52,8 @@ const table = () => new Table({
 const route = (r) => {
 	const p = r.parts
 	return p.map(transport).join(chalk.gray(', '))
-	+ ' ' + chalk.yellow(ms(p[p.length - 1].end - p[0].start))
-	+ '   ' + chalk.gray(time(p[0].start) + '–' + time(p[p.length - 1].end))
+	+ ' ' + chalk.yellow(ms(p[p.length - 1].arrival - p[0].departure))
+	+ '   ' + chalk.gray(time(p[0].departure) + '–' + time(p[p.length - 1].arrival))
 }
 
 const bar  = chalk.gray('|')
@@ -58,19 +61,19 @@ const node = chalk.gray('•')
 
 const part = (acc, p, i, all) => {
 	if (i === 0) acc.push([node
-		, chalk.cyan(time(p.start))
-		, chalk.green(p.from.name)
+		, chalk.cyan(time(p.departure))
+		, chalk.green(p.origin.name)
 	])
 	acc.push([bar
-		, chalk.yellow(pad(ms(p.end - p.start), 3, ' '))
+		, chalk.yellow(pad(ms(p.arrival - p.departure), 3, ' '))
 		+ ' ' + transport(p)
 		+ (p.line ? ' ' + line(p.line) : '')
 		, chalk.gray(' -> ') + p.direction
-		, i > 0 ? chalk.gray(ms(p.start - all[i - 1].end) + ' waiting') : ''
+		, i > 0 ? chalk.gray(ms(p.departure - all[i - 1].end) + ' waiting') : ''
 	])
 	acc.push([node
-		, chalk.cyan(time(p.end))
-		, chalk.green(p.to.name)
+		, chalk.cyan(time(p.arrival))
+		, chalk.green(p.destination.name)
 	])
 	return acc
 }

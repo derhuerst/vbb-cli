@@ -81,12 +81,14 @@ const main = so(function* (opt) {
 		process.stdout.write(chalk.red('No departures.'))
 
 	const table = render.table()
-	for (let dep of departures) table.push([
-		  render.product(dep.product.type)
-		, render.line(dep.product)
-		, render.when(dep.when)
-		, render.station(dep.direction)
-	])
+	for (let dep of departures) {
+		table.push([
+			  render.product(dep.line.product)
+			, render.line(dep.line)
+			, render.when(dep.when)
+			, render.station(dep.direction)
+		])
+	}
 	process.stdout.write(table.toString() + '\n')
 })
 

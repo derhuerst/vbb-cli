@@ -18,27 +18,38 @@ const isStationId = (s) => /^\d{12}$/.test(s.toString())
 
 const parseStation = (query) => {
 	if (isStationId(query)) return client.station(+query)
-	return new Promise((yay, nay) => {
-		let matched = false
-		client.stations({query, results: 1})
-		.on('error', nay)
-		.on('data', (s) => {matched = true; yay(s)})
-		.on('end', () => {
-			if (!matched) nay(new Error('Station not found.'))
-		})
+
+	return client.stations({
+		query, results: 1,
+		identifier: 'vbb-cli'
+	})
+	.then(([station]) => {
+		if (!station) throw new Error('Station not found.')
+		return station
 	})
 }
 
 const suggestStations = (input) => {
 	if (!input || input === '') return Promise.resolve([])
-	return client.stations({query: input, completion: true, results: 5})
+
+	return client.stations({
+		query: input, completion: true, results: 5,
+		identifier: 'vbb-cli'
+	})
 	.then((stations) => stations.map((s) => ({
 		title: s.name, value: s.id
-	})), (err) => err)
+	})))
 }
-const queryStation = (msg) => new Promise((yay, nay) =>
-	autocompletePrompt(msg, suggestStations).on('submit', yay)
-	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`))))
+
+const queryStation = (msg) => {
+	return new Promise((yay, nay) => {
+		autocompletePrompt(msg, suggestStations)
+		.on('submit', yay)
+		.on('abort', (val) => {
+			nay(new Error(`Rejected with ${val}.`))
+		})
+	})
+}
 
 const closeStations = (loc) =>
 	client.nearby({
@@ -134,11 +145,15 @@ const queryRoute = (msg, routes) => {
 
 
 
-const departures = (data) =>
-	client.departures(data.station.id, data)
+const departures = (data) => {
+	data.identifier = 'vbb-cli'
+	return client.departures(data.station.id, data)
+}
 
-const routes = (data) =>
-	client.routes(data.from.id, data.to.id, data)
+const routes = (data) => {
+	data.identifier = 'vbb-cli'
+	return client.journeys(data.from.id, data.to.id, data)
+}
 
 
 
