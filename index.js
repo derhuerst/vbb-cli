@@ -58,14 +58,18 @@ const closeStations = (loc) =>
 		results:   3
 	})
 
-const queryCloseStations = (msg, loc) => closeStations(loc)
-	.then((stations) => new Promise((yay, nay) => {
-		selectPrompt(msg, stations.map((s) => ({
-			  title: s.name, value: s.id
-		})))
-		.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
-		.on('submit', yay)
-	}))
+const queryCloseStations = (msg, loc) => {
+	return closeStations(loc)
+	.then((stations) => {
+		return new Promise((yay, nay) => {
+			selectPrompt(msg, stations.map((s) => ({
+				  title: s.name, value: s.id
+			})))
+			.on('submit', yay)
+			.on('abort', (val) => nay(new Error(`Rejected with ${val}.`)))
+		})
+	})
+}
 
 
 

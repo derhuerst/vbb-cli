@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
-const yargs     = require('yargs')
+const minimist = require('minimist')
 const native    = require('cli-native')
 const so        = require('so')
 const chalk     = require('chalk')
@@ -12,7 +12,7 @@ const render    = require('./render')
 
 
 
-const argv = yargs.argv
+const argv = minimist(process.argv.slice(2))
 const opt = {
 	  station:  native.to(argv._.shift())
 	, help:     native.to(argv.help     || argv.h)
@@ -44,7 +44,6 @@ Options:
 const showError = function (err) {
 	if (process.env.NODE_DEBUG === 'vbb-cli') console.error(err)
 	process.stderr.write(chalk.red(err.message) + '\n')
-	if (process.env.NODE_DEBUG === 'true') console.error(err.stack)
 	process.exit(err.code || 1)
 }
 
@@ -52,13 +51,19 @@ const main = so(function* (opt) {
 	let station, when, duration, products
 
 	if (opt.location === true) {
-		try {station = yield lib.queryCloseStations('Where?', yield locate())}
-		catch (err) { showError(err) }
-	} else if (!opt.station || opt.station === true)
+		try {
+			station = yield lib.queryCloseStations('Where?', yield locate())
+		} catch (err) {
+			showError(err)
+		}
+	} else if (!opt.station || opt.station === true) {
 		station = yield lib.queryStation('Where?')
-	else station = opt.station
-	try { station = (yield lib.parseStation(station)) }
-	catch (err) { showError(err) }
+	} else station = opt.station
+	try {
+		station = yield lib.parseStation(station)
+	} catch (err) {
+		showError(err)
+	}
 
 	// query date & time
 	if (opt.when === true) when = yield lib.queryWhen('When?')
@@ -66,19 +71,21 @@ const main = so(function* (opt) {
 	else when = new Date()
 
 	// duration
-	if (opt.duration === true) duration = yield lib.queryDuration('Show departures for how many minutes?', 15)
-	else duration = lib.parseDuration(opt.duration, 15)
+	if (opt.duration === true) {
+		duration = yield lib.queryDuration('Show departures for how many minutes?', 15)
+	} else duration = lib.parseDuration(opt.duration, 15)
 
 	// means of transport
-	if (opt.products === true)
+	if (opt.products === true) {
 		products = yield lib.queryProducts('Which means of transport?')
-	else products = lib.parseProducts(opt.products)
+	} else products = lib.parseProducts(opt.products)
 
 	const departures = yield lib.departures({station, when, duration, products})
 
 	// render departures
-	if (departures.length === 0)
+	if (departures.length === 0) {
 		process.stdout.write(chalk.red('No departures.'))
+	}
 
 	const table = render.table()
 	for (let dep of departures) {

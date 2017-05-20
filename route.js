@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
-const yargs     = require('yargs')
+const minimist = require('minimist')
 const native    = require('cli-native')
 const so        = require('so')
 const chalk     = require('chalk')
@@ -11,7 +11,7 @@ const render    = require('./render')
 
 
 
-const argv = yargs.argv
+const argv = minimist(process.argv.slice(2))
 const opt = {
 	  from:     native.to(argv._.shift())
 	, to:       native.to(argv._.shift())
@@ -46,7 +46,6 @@ Options:
 const showError = function (err) {
 	if (process.env.NODE_DEBUG === 'vbb-cli') console.error(err)
 	process.stderr.write(chalk.red(err.message) + '\n')
-	if (process.env.NODE_DEBUG === 'true') console.error(err.stack)
 	process.exit(err.code || 1)
 }
 
@@ -54,18 +53,24 @@ const main = so(function* (opt) {
 	let from, to, when, results, products
 
 	// query the station of departure
-	if (!opt.from || opt.from === true)
+	if (!opt.from || opt.from === true) {
 		from = yield lib.queryStation('From where?')
-	else from = opt.from
-	try { from = (yield lib.parseStation(from)) }
-	catch (err) { showError(err) }
+	} else from = opt.from
+	try {
+		from = yield lib.parseStation(from)
+	} catch (err) {
+		showError(err)
+	}
 
 	// query the destination
-	if (!opt.to || opt.to === true)
+	if (!opt.to || opt.to === true) {
 		to = yield lib.queryStation('To where?')
-	else to = opt.to
-	try { to = (yield lib.parseStation(to)) }
-	catch (err) { showError(err) }
+	} else to = opt.to
+	try {
+		to = (yield lib.parseStation(to))
+	} catch (err) {
+		showError(err)
+	}
 
 	// query date & time
 	if (opt.when === true) when = yield lib.queryWhen('When?')
@@ -73,13 +78,14 @@ const main = so(function* (opt) {
 	else when = new Date()
 
 	// nr of results
-	if (opt.results === true) results = yield lib.queryResults('How many results?', 4)
-	else results = lib.parseResults(opt.results, 4)
+	if (opt.results === true) {
+		results = yield lib.queryResults('How many results?', 4)
+	} else results = lib.parseResults(opt.results, 4)
 
 	// means of transport
-	if (opt.products === true)
+	if (opt.products === true) {
 		products = yield lib.queryProducts('Which means of transport?')
-	else products = lib.parseProducts(opt.products)
+	} else products = lib.parseProducts(opt.products)
 
 	const routes = yield lib.routes({from, to, when, results, products})
 	let route
