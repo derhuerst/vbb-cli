@@ -6,6 +6,7 @@ const native    = require('cli-native')
 const so        = require('so')
 const chalk     = require('chalk')
 
+const pkg = require('./package.json')
 const lib       = require('./index')
 const render    = require('./render')
 
@@ -16,6 +17,7 @@ const opt = {
 	  from:     native.to(argv._.shift())
 	, to:       native.to(argv._.shift())
 	, help:     native.to(argv.help     || argv.h)
+	, version:  native.to(argv.version  || argv.v)
 	, results:  native.to(argv.results  || argv.r) || 4
 	, products: native.to(argv.products || argv.p, ',') || 'all'
 	, when:     native.to(argv.when     || argv.w) || null
@@ -38,6 +40,11 @@ Options:
     --when      -w  A date & time string like "tomorrow 2 pm". Default: now
 
 `)
+	process.exit(0)
+}
+
+if (opt.version === true) {
+	process.stdout.write(`vbb-route v${pkg.version}\n`)
 	process.exit(0)
 }
 

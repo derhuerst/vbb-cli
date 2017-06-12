@@ -7,6 +7,7 @@ const so        = require('so')
 const chalk     = require('chalk')
 const locate    = require('location')
 
+const pkg = require('./package.json')
 const lib       = require('./index')
 const render    = require('./render')
 
@@ -16,6 +17,7 @@ const argv = minimist(process.argv.slice(2))
 const opt = {
 	  station:  native.to(argv._.shift())
 	, help:     native.to(argv.help     || argv.h)
+	, version:  native.to(argv.version  || argv.v)
 	, location: native.to(argv.location || argv.l)
 	, duration: native.to(argv.duration || argv.d) || 15
 	, when:     native.to(argv.when     || argv.w) || null
@@ -36,6 +38,11 @@ Options:
     --when      -w  A date & time string like "tomorrow 2 pm". Default: now
 
 `)
+	process.exit(0)
+}
+
+if (opt.version === true) {
+	process.stdout.write(`vbb-dep v${pkg.version}\n`)
 	process.exit(0)
 }
 
