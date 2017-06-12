@@ -62,7 +62,7 @@ const queryCloseStations = (msg, loc) => {
 	return closeStations(loc)
 	.then((stations) => {
 		return new Promise((yay, nay) => {
-			selectPrompt(msg, stations.map((s) => ({
+			selectPrompt(msg, stations.slice(0, 10).map((s) => ({
 				  title: s.name, value: s.id
 			})))
 			.on('submit', yay)

@@ -69,7 +69,7 @@ const part = (acc, p, i, all) => {
 		+ ' ' + transport(p)
 		+ (p.line ? ' ' + line(p.line) : '')
 		, chalk.gray(' -> ') + p.direction
-		, i > 0 ? chalk.gray(ms(p.departure - all[i - 1].end) + ' waiting') : ''
+		, i > 0 ? chalk.gray(ms(p.departure - all[i - 1].arrival) + ' waiting') : ''
 	])
 	acc.push([node
 		, chalk.cyan(time(p.arrival))
