@@ -36,8 +36,8 @@ const suggestStations = (input) => {
 		query: input, completion: true, results: 5,
 		identifier: 'vbb-cli'
 	})
-	.then((stations) => stations.map((s) => ({
-		title: s.name, value: s.id
+	.then((stations) => stations.slice(0, 5).map((s) => ({
+		title: s.name + ' – ' + s.id, value: s.id
 	})))
 }
 

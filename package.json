@@ -1,7 +1,7 @@
 {
 	"name":        "vbb-cli",
 	"description": "A CLI for Berlin & Brandenburg public transport.",
-	"version":     "0.5.0",
+	"version":     "0.5.1",
 	"bin":         {"vbb-dep": "./dep.js", "vbb-route": "./route.js"},
 	"keywords":    ["vbb", "cli", "berlin", "brandenburg", "public transport", "fahrinfo"],
 	"author":      "Jannis R <mail@jannisr.de>",
