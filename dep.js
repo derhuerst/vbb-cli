@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 'use strict'
 
-const minimist = require('minimist')
-const native    = require('cli-native')
+const mri = require('mri')
 const so        = require('so')
 const chalk     = require('chalk')
-const locate    = require('location')
+const queryLocation = require('@derhuerst/location')
 
 const pkg = require('./package.json')
 const lib       = require('./index')
@@ -13,14 +12,16 @@ const render    = require('./render')
 
 
 
-const argv = minimist(process.argv.slice(2))
+const argv = mri(process.argv.slice(2), {
+	boolean: ['help', 'h', 'version', 'v', 'location', 'l']
+})
 const opt = {
-	  station:  native.to(argv._.shift())
-	, help:     native.to(argv.help     || argv.h)
-	, version:  native.to(argv.version  || argv.v)
-	, location: native.to(argv.location || argv.l)
-	, duration: native.to(argv.duration || argv.d) || 15
-	, when:     native.to(argv.when     || argv.w) || null
+	  station:  argv._[0]
+	, help:     argv.help     || argv.h
+	, version:  argv.version  || argv.v
+	, location: argv.location || argv.l
+	, duration: argv.duration || argv.d || 15
+	, when:     argv.when     || argv.w || null
 }
 
 
@@ -48,6 +49,13 @@ if (opt.version === true) {
 
 
 
+const locate = () => new Promise((yay, nay) => {
+	queryLocation((err, loc) => {
+		if (err) nay(err)
+		else yay(loc)
+	})
+})
+
 const showError = function (err) {
 	if (process.env.NODE_DEBUG === 'vbb-cli') console.error(err)
 	process.stderr.write(chalk.red(err.message) + '\n')
@@ -57,7 +65,7 @@ const showError = function (err) {
 const main = so(function* (opt) {
 	let station, when, duration, products
 
-	if (opt.location === true) {
+	if (opt.location) {
 		try {
 			station = yield lib.queryCloseStations('Where?', yield locate())
 		} catch (err) {

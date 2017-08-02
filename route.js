@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
-const minimist = require('minimist')
+const mri = require('mri')
 const native    = require('cli-native')
 const so        = require('so')
 const chalk     = require('chalk')
@@ -12,15 +12,17 @@ const render    = require('./render')
 
 
 
-const argv = minimist(process.argv.slice(2))
+const argv = mri(process.argv.slice(2), {
+	boolean: ['help', 'h', 'version', 'v']
+})
 const opt = {
-	  from:     native.to(argv._.shift())
-	, to:       native.to(argv._.shift())
-	, help:     native.to(argv.help     || argv.h)
-	, version:  native.to(argv.version  || argv.v)
-	, results:  native.to(argv.results  || argv.r) || 4
+	  from:     argv._[0]
+	, to:       argv._[1]
+	, help:     argv.help     || argv.h
+	, version:  argv.version  || argv.v
+	, results:  argv.results  || argv.r || 4
 	, products: native.to(argv.products || argv.p, ',') || 'all'
-	, when:     native.to(argv.when     || argv.w) || null
+	, when:     argv.when     || argv.w || null
 }
 
 
