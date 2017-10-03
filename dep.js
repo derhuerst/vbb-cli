@@ -5,12 +5,10 @@ const mri = require('mri')
 const so        = require('so')
 const chalk     = require('chalk')
 const queryLocation = require('@derhuerst/location')
-const ms = require('ms')
 
 const pkg = require('./package.json')
 const lib       = require('./index')
 const render    = require('./render')
-const getPredictedDelay = require('./lib/get-predicted-delay')
 
 
 
@@ -98,13 +96,6 @@ const main = so(function* (opt) {
 	} else products = lib.parseProducts(opt.products)
 
 	const departures = yield lib.departures({station, when, duration, products})
-	yield Promise.all(departures.map((dep) => {
-		return getPredictedDelay(dep)
-		.then((predictedDelay) => {
-			// todo: don't monkey-patch dep
-			dep.predictedDelay = predictedDelay
-		})
-	}))
 
 	// render departures
 	if (departures.length === 0) {
@@ -113,15 +104,10 @@ const main = so(function* (opt) {
 
 	const table = render.table()
 	for (let dep of departures) {
-		let when = render.when(dep.when)
-		if (dep.predictedDelay !== null) {
-			when += ' +~' + chalk.yellow(ms(dep.predictedDelay * 1000))
-		}
-
 		table.push([
 			  render.product(dep.line.product)
 			, render.line(dep.line)
-			, when
+			, render.when(dep.when)
 			, render.station(dep.direction)
 		])
 	}
