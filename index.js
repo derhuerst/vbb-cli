@@ -101,7 +101,17 @@ const queryDuration = (msg, d) => new Promise((yay, nay) =>
 
 
 
-const allProducts = ['suburban', 'subway', 'tram', 'bus', 'ferry', 'express', 'regional']
+const noProduct = {
+	suburban: false,
+	subway:   false,
+	tram:     false,
+	bus:      false,
+	ferry:    false,
+	express:  false,
+	regional: false
+}
+const allProducts = Object.keys(noProduct)
+
 const isValidProduct = (p) => p in util.products.aliases
 const dealiasProduct = (p) => util.products.aliases[p].type
 const reduceProducts = (acc, p) => {
@@ -111,8 +121,11 @@ const reduceProducts = (acc, p) => {
 const parseProducts = (p) => {
 	if (p === 'all') return allProducts.reduce(reduceProducts, {})
 	if (!Array.isArray(p)) p = [p]
-	return p.filter(isValidProduct).map(dealiasProduct)
-		.reduce(reduceProducts, {})
+	const obj = Object.assign(Object.create(null), noProduct)
+	return p
+	.filter(isValidProduct)
+	.map(dealiasProduct)
+	.reduce(reduceProducts, obj)
 }
 
 const productColor = (p, s) => util.products[p].ansi
