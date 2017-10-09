@@ -29,9 +29,8 @@ Arguments:
     station         Station number (like "900000023201") or search string (like "Zoo").
 
 Options:
-    --results   -r  The number of departures to show. Default: 3
-    --products  -p  Allowed transportation types. Default: "all"
-                    "all" = "suburban,subway,tram,bus,ferry,express,regional"
+    --location  -l  Use current location. OS X only.
+    --duration  -d  Show departures for the next n minutes. Default: 15
     --when      -w  A date & time string like "tomorrow 2 pm". Default: now
 ```
 
