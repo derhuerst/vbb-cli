@@ -1,16 +1,14 @@
 # vbb-cli
 
-**Easily the most awesome public transport CLI on the planet.**
+**A command line client for [Berlin & Brandenburg public transport (VBB)](https://en.wikipedia.org/wiki/Verkehrsverbund_Berlin-Brandenburg).**
 
 [![asciicast](https://asciinema.org/a/42117.png)](https://asciinema.org/a/42117)
 
-*vbb-cli* is a command line client for the **Berlin & Brandenburg public transport (VBB) API**.
-
 [![npm version](https://img.shields.io/npm/v/vbb-cli.svg)](https://www.npmjs.com/package/vbb-cli)
 [![build status](https://img.shields.io/travis/derhuerst/vbb-cli.svg)](https://travis-ci.org/derhuerst/vbb-cli)
-[![dependency status](https://img.shields.io/david/derhuerst/vbb-cli.svg)](https://david-dm.org/derhuerst/vbb-cli)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-cli.svg)
 [![gitter channel](https://badges.gitter.im/derhuerst/vbb-rest.svg)](https://gitter.im/derhuerst/vbb-rest)
+[![support me on Patreon](https://img.shields.io/badge/support%20me-on%20patreon-fa7664.svg)](https://patreon.com/derhuerst)
 
 
 ## Installing
@@ -18,6 +16,8 @@
 ```shell
 npm install -g vbb-cli
 ```
+
+Or just run it using [`npx`](https://npmjs.com/npx).
 
 
 ## Usage
@@ -51,4 +51,4 @@ Options:
 
 ## Contributing
 
-If you **have a question**, **found a bug** or want to **propose a feature**, have a look at [the issues page](https://github.com/derhuerst/vbb-cli/issues).
+If you have a question or have difficulties using `vbb-cli`, please double-check your code and setup first. If you think you have found a bug or want to propose a feature, refer to [the issues page](https://github.com/derhuerst/vbb-cli/issues).

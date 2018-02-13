@@ -1,16 +1,33 @@
 {
-	"name":        "vbb-cli",
+	"name": "vbb-cli",
 	"description": "A CLI for Berlin & Brandenburg public transport.",
-	"version":     "0.6.1",
-	"bin":         {"vbb-dep": "./dep.js", "vbb-route": "./route.js"},
-	"keywords":    ["vbb", "cli", "berlin", "brandenburg", "public transport", "fahrinfo"],
-	"author":      "Jannis R <mail@jannisr.de>",
-	"homepage":    "https://github.com/derhuerst/vbb-cli",
-	"repository":  "git://github.com/derhuerst/vbb-cli.git",
-	"bugs":        "https://github.com/derhuerst/vbb-cli/issues",
-	"license":     "ISC",
-	"engines" :    {"node": ">=6"},
-	"files":       ["index.js", "dep.js", "route.js", "render.js"],
+	"version": "0.6.1",
+	"bin": {
+		"vbb-dep": "./dep.js",
+		"vbb-route": "./route.js"
+	},
+	"keywords": [
+		"vbb",
+		"cli",
+		"berlin",
+		"brandenburg",
+		"public transport",
+		"fahrinfo"
+	],
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/derhuerst/vbb-cli",
+	"repository": "git://github.com/derhuerst/vbb-cli.git",
+	"bugs": "https://github.com/derhuerst/vbb-cli/issues",
+	"license": "ISC",
+	"engines": {
+		"node": ">=6"
+	},
+	"files": [
+		"index.js",
+		"dep.js",
+		"route.js",
+		"render.js"
+	],
 	"dependencies": {
 		"@derhuerst/location": "^0.5.0",
 		"chalk": "^2.0.1",
