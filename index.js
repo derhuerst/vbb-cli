@@ -33,12 +33,16 @@ const suggestStations = (input) => {
 	if (!input || input === '') return Promise.resolve([])
 
 	return client.stations({
-		query: input, completion: true, results: 5,
+		query: input,
+		completion: true,
+		results: 5,
 		identifier: 'vbb-cli'
 	})
-	.then((stations) => stations.slice(0, 5).map((s) => ({
-		title: s.name + ' – ' + s.id, value: s.id
-	})))
+	.then((stations) => {
+		return stations.slice(0, 5).map((s) => {
+			return {title: s.name + ' – ' + s.id, value: s.id}
+		})
+	})
 }
 
 const queryStation = (msg) => {
@@ -151,13 +155,15 @@ const queryProducts = (msg) => new Promise((yay, nay) =>
 
 
 
-const queryRoute = (msg, routes) => {
-	const choices = routes
-		.map((r) => ({title: render.route(r), value: r}))
-	return new Promise((yay, nay) =>
+const queryJourney = (msg, journeys) => {
+	const choices = journeys.map((r) => {
+		return {title: render.journey(r), value: r}
+	})
+	return new Promise((yay, nay) => {
 		selectPrompt(msg, choices)
-		.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
-		.on('submit', yay))
+		.once('abort', v => nay(new Error(`Rejected with ${v}.`)))
+		.once('submit', yay)
+	})
 }
 
 
@@ -167,7 +173,7 @@ const departures = (data) => {
 	return client.departures(data.station.id, data)
 }
 
-const routes = (data) => {
+const journeys = (data) => {
 	data.identifier = 'vbb-cli'
 	return client.journeys(data.from.id, data.to.id, data)
 }
@@ -181,6 +187,6 @@ module.exports = {
 	parseResults,  queryResults,
 	parseDuration, queryDuration,
 	parseProducts, queryProducts,
-	queryRoute,
-	departures, routes
+	queryJourney,
+	departures, journeys
 }

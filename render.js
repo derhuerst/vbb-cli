@@ -49,37 +49,50 @@ const table = () => new Table({
 })
 
 
-const route = (r) => {
+const journey = (r) => {
 	const p = r.parts
-	return p.map(transport).join(chalk.gray(', '))
-	+ ' ' + chalk.yellow(ms(p[p.length - 1].arrival - p[0].departure))
-	+ '   ' + chalk.gray(time(p[0].departure) + '–' + time(p[p.length - 1].arrival))
+	return [
+		p.map(transport).join(chalk.gray(', ')),
+		' ',
+		chalk.yellow(ms(p[p.length - 1].arrival - p[0].departure)),
+		'   ',
+		chalk.gray(time(p[0].departure) + '–' + time(p[p.length - 1].arrival))
+	].join('')
 }
 
 const bar  = chalk.gray('|')
 const node = chalk.gray('•')
+const arrow = chalk.gray(' -> ')
 
 const part = (acc, p, i, all) => {
-	if (i === 0) acc.push([node
-		, chalk.cyan(time(p.departure))
-		, chalk.green(p.origin.name)
+	if (i === 0) {
+		acc.push([
+			node,
+			chalk.cyan(time(p.departure)),
+			chalk.green(p.origin.name)
+		])
+	}
+	acc.push([
+		bar,
+		chalk.yellow(pad(ms(p.arrival - p.departure), 3, ' ')),
+		' ',
+		transport(p),
+		p.line ? ' ' + line(p.line) : '',
+		arrow,
+		p.direction,
+		i > 0 ? chalk.gray(ms(p.departure - all[i - 1].arrival) + ' waiting') : ''
 	])
-	acc.push([bar
-		, chalk.yellow(pad(ms(p.arrival - p.departure), 3, ' '))
-		+ ' ' + transport(p)
-		+ (p.line ? ' ' + line(p.line) : '')
-		, chalk.gray(' -> ') + p.direction
-		, i > 0 ? chalk.gray(ms(p.departure - all[i - 1].arrival) + ' waiting') : ''
-	])
-	acc.push([node
-		, chalk.cyan(time(p.arrival))
-		, chalk.green(p.destination.name)
+	acc.push([
+		node,
+		chalk.cyan(time(p.arrival)),
+		chalk.green(p.destination.name)
 	])
 	return acc
 }
 
-const routeDetails = (r) =>
-	'\n' + r.parts.reduce(part, table()).toString() + '\n\n'
+const journeyDetails = (r) => {
+	return '\n' + r.parts.reduce(part, table()).toString() + '\n\n'
+}
 
 
 
@@ -87,5 +100,5 @@ module.exports = {
 	product, transport, line,
 	when, time,
 	station, table,
-	route, routeDetails
+	journey, journeyDetails
 }
