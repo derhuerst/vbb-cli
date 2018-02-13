@@ -45,7 +45,7 @@ const table = () => new Table({
 		left:   '', 'left-mid':   '',  mid:          '', 'mid-mid':      '',
 		right:  '', 'right-mid':  '',  middle:       ' '
 	},
-	style: {'padding-left': 1, 'padding-right': 0}
+	style: {'padding-left': 0, 'padding-right': 0}
 })
 
 
@@ -62,7 +62,7 @@ const journey = (r) => {
 
 const bar  = chalk.gray('|')
 const node = chalk.gray('•')
-const arrow = chalk.gray(' -> ')
+const arrow = chalk.gray('-> ')
 
 const leg = (acc, p, i, all) => {
 	if (i === 0) {
@@ -76,10 +76,8 @@ const leg = (acc, p, i, all) => {
 		bar,
 		chalk.yellow(pad(ms(p.arrival - p.departure), 3, ' ')),
 		' ',
-		transport(p),
-		p.line ? ' ' + line(p.line) : '',
-		arrow,
-		p.direction,
+		transport(p) + (p.line ? ' ' + line(p.line) : ''),
+		arrow + p.direction,
 		i > 0 ? chalk.gray(ms(p.departure - all[i - 1].arrival) + ' waiting') : ''
 	])
 	acc.push([

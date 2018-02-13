@@ -29,7 +29,7 @@
 		"render.js"
 	],
 	"dependencies": {
-		"@derhuerst/location": "^0.5.0",
+		"@derhuerst/location": "^1.0.0",
 		"chalk": "^2.0.1",
 		"cli-autocomplete": "^0.4.0",
 		"cli-native": "^1.0.0",

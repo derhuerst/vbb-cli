@@ -68,7 +68,7 @@ const main = so(function* (opt) {
 	try {
 		from = yield lib.parseStation(from)
 	} catch (err) {
-		showError(err)
+		return showError(err)
 	}
 
 	// query the destination
@@ -76,9 +76,9 @@ const main = so(function* (opt) {
 		to = yield lib.queryStation('To where?')
 	} else to = opt.to
 	try {
-		to = (yield lib.parseStation(to))
+		to = yield lib.parseStation(to)
 	} catch (err) {
-		showError(err)
+		return showError(err)
 	}
 
 	// query date & time
