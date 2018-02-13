@@ -50,13 +50,13 @@ const table = () => new Table({
 
 
 const journey = (r) => {
-	const p = r.parts
+	const l = r.legs
 	return [
-		p.map(transport).join(chalk.gray(', ')),
+		l.map(transport).join(chalk.gray(', ')),
 		' ',
-		chalk.yellow(ms(p[p.length - 1].arrival - p[0].departure)),
+		chalk.yellow(ms(l[l.length - 1].arrival - l[0].departure)),
 		'   ',
-		chalk.gray(time(p[0].departure) + '–' + time(p[p.length - 1].arrival))
+		chalk.gray(time(l[0].departure) + '–' + time(l[l.length - 1].arrival))
 	].join('')
 }
 
@@ -64,7 +64,7 @@ const bar  = chalk.gray('|')
 const node = chalk.gray('•')
 const arrow = chalk.gray(' -> ')
 
-const part = (acc, p, i, all) => {
+const leg = (acc, p, i, all) => {
 	if (i === 0) {
 		acc.push([
 			node,
@@ -91,7 +91,7 @@ const part = (acc, p, i, all) => {
 }
 
 const journeyDetails = (r) => {
-	return '\n' + r.parts.reduce(part, table()).toString() + '\n\n'
+	return '\n' + r.legs.reduce(leg, table()).toString() + '\n\n'
 }
 
 

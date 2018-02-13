@@ -96,13 +96,13 @@ const main = so(function* (opt) {
 		products = yield lib.queryProducts('Which means of transport?')
 	} else products = lib.parseProducts(opt.products)
 
-	const routes = yield lib.routes({from, to, when, results, products})
-	let route
-	if (routes.length === 1) route = routes[0]
-	else route = yield lib.queryRoute('Which route?', routes)
+	const journeys = yield lib.journeys({from, to, when, results, products})
+	let journey
+	if (journeys.length === 1) journey = journeys[0]
+	else journey = yield lib.queryJourney('Which route?', journeys)
 
-	// render route
-	process.stdout.write(render.routeDetails(route))
+	// render journey
+	process.stdout.write(render.journeyDetails(journey))
 })
 
 main(opt).catch(showError)

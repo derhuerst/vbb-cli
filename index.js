@@ -14,10 +14,10 @@ const render             = require('./render')
 
 
 
-const isStationId = (s) => /^\d{12}$/.test(s.toString())
+const isStationId = s => /^\d{9,}$/.test(s + '')
 
 const parseStation = (query) => {
-	if (isStationId(query)) return client.station(+query)
+	if (isStationId(query)) return client.station(query)
 
 	return client.stations({
 		query, results: 1,
