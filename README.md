@@ -35,11 +35,11 @@ Options:
 ```
 
 ```
-vbb-route [from] [to] [options]
+vbb-journey [origin] [destination] [options]
 
 Arguments:
-    from            Station number (e.g. 900000023201) or query (e.g. "Zoo").
-    to              Station number (e.g. 900000023201) or query (e.g. "Zoo").
+    origin          Station number (e.g. 900000023201) or query (e.g. "Zoo").
+    destination     Station number (e.g. 900000023201) or query (e.g. "Zoo").
 
 Options:
     --results   -r  The number of departures to show. Default: 3
