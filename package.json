@@ -1,7 +1,7 @@
 {
 	"name": "vbb-cli",
 	"description": "A CLI for Berlin & Brandenburg public transport.",
-	"version": "0.6.2",
+	"version": "1.0.0",
 	"bin": {
 		"vbb-dep": "./dep.js",
 		"vbb-journey": "./journey.js"
@@ -34,6 +34,6 @@
 		"vbb-util": "^0.10.2"
 	},
 	"scripts": {
-		"test": "./dep.js 900000009103 --when 'tomorrow 2pm' > /dev/null"
+		"test": "./dep.js 900000009103 --when 'in 3min'"
 	}
 }
