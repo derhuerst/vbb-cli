@@ -4,7 +4,7 @@
 	"version": "0.6.2",
 	"bin": {
 		"vbb-dep": "./dep.js",
-		"vbb-route": "./route.js"
+		"vbb-journey": "./journey.js"
 	},
 	"keywords": [
 		"vbb",
@@ -23,32 +23,15 @@
 		"node": ">=6"
 	},
 	"files": [
-		"index.js",
 		"dep.js",
-		"route.js",
-		"render.js"
+		"journey.js",
+		"lib"
 	],
 	"dependencies": {
-		"@derhuerst/location": "^1.0.0",
-		"chalk": "^2.0.1",
-		"cli-autocomplete": "^0.4.0",
-		"cli-native": "^1.0.0",
-		"cli-table2": "^0.2.0",
-		"date-prompt": "^0.7.0",
-		"figures": "^2.0.0",
-		"gps-distance": "^0.0.4",
-		"kuler": "^0.0.0",
-		"moment": "^2.18.1",
+		"chalk": "^2.3.2",
 		"mri": "^1.1.0",
-		"ms": "^2.0.0",
-		"multiselect-prompt": "^0.3.0",
-		"number-prompt": "^0.2.0",
-		"pad-right": "^0.2.2",
-		"parse-messy-time": "^2.1.0",
-		"select-prompt": "^0.3.1",
-		"so": "^1.0.1",
-		"vbb-client": "^3.0.1",
-		"vbb-util": "^0.10.1"
+		"vbb-hafas": "^5.0.0-alpha.1",
+		"vbb-util": "^0.10.2"
 	},
 	"scripts": {
 		"test": "./dep.js 900000009103 --when 'tomorrow 2pm' > /dev/null"

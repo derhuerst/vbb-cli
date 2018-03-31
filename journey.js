@@ -4,7 +4,7 @@
 const mri = require('mri')
 const chalk = require('chalk')
 const hafas = require('vbb-hafas')
-const createDeparturesCli = require('hafas-cli/departures')
+const createJourneysCli = require('hafas-cli/journeys')
 
 const pkg = require('./package.json')
 const productColor = require('./lib/product-color')
@@ -17,24 +17,24 @@ const argv = mri(process.argv.slice(2), {
 
 if (argv.help || argv.h) {
 	process.stdout.write(`
-vbb-dep [station] [options]
+vbb-journey [origin] [destination] [options]
 
 Arguments:
-    station         Station number (like "900000023201") or search string (like "Zoo").
+    origin          Station number (e.g. 900000023201) or query (e.g. "Zoo").
+    destination     Station number (e.g. 900000023201) or query (e.g. "Zoo").
 
 Options:
-    --location  -l  Use current location. OS X only.
-    --duration  -d  Show departures for the next n minutes. Default: 15
+    --results   -r  The number of journeys to show. Default: 4
+    --products  -p  Allowed transportation types. Default: "all"
+                    "all" = "suburban,subway,tram,bus,ferry,express,regional"
     --when      -w  A date & time string like "tomorrow 2 pm". Default: now
-    --products  -p  Allowed transportation types.
-                    Default: suburban,subway,tram,bus,ferry,express,regional
 
 `)
 	process.exit(0)
 }
 
 if (argv.version || argv.v) {
-	process.stdout.write(`vbb-dep v${pkg.version}\n`)
+	process.stdout.write(`vbb-journey v${pkg.version}\n`)
 	process.exit(0)
 }
 
@@ -44,15 +44,15 @@ const showError = function (err) {
 	process.exit(err.code || 1)
 }
 
-const departuresCli = createDeparturesCli(hafas, {
+const departuresCli = createJourneysCli(hafas, {
 	productColor, productSymbol,
 	lineColor
 })
 departuresCli({
-	station: argv._[0],
-	useCurrentLocation: argv.location || argv.l,
-	duration: argv.duration || argv.d,
-	queryDuration: (argv.duration || argv.d) === true,
+	origin: argv._[0],
+	destination: argv._[1],
+	results: argv.results || argv.r || 4,
+	queryResults: (argv.results || argv.r) === true,
 	when: argv.when || argv.w,
 	queryWhen: (argv.when || argv.w) === true,
 	products: argv.products || argv.p,
