@@ -29,6 +29,7 @@
 	],
 	"dependencies": {
 		"chalk": "^2.3.2",
+		"hafas-cli": "^0.1.0",
 		"mri": "^1.1.0",
 		"vbb-hafas": "^5.0.0-alpha.1",
 		"vbb-util": "^0.10.2"
