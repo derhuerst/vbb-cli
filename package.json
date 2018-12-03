@@ -32,6 +32,7 @@
 		"hafas-cli": "^0.2.2",
 		"mri": "^1.1.0",
 		"vbb-hafas": "^5.0.1",
+		"vbb-line-colors": "^1.0.0",
 		"vbb-util": "^0.10.2"
 	},
 	"scripts": {
