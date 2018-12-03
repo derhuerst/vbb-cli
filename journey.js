@@ -44,11 +44,11 @@ const showError = function (err) {
 	process.exit(err.code || 1)
 }
 
-const departuresCli = createJourneysCli(hafas, {
+const journeysCli = createJourneysCli(hafas, {
 	productColor, productSymbol,
 	lineColor
 })
-departuresCli({
+journeysCli({
 	origin: argv._[0],
 	destination: argv._[1],
 	results: argv.results || argv.r || 4,
