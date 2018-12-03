@@ -3,10 +3,10 @@
 
 const mri = require('mri')
 const chalk = require('chalk')
-const hafas = require('vbb-hafas')
 const createDeparturesCli = require('hafas-cli/departures')
 
 const pkg = require('./package.json')
+const hafas = require('./lib/hafas')
 const productColor = require('./lib/product-color')
 const productSymbol = require('./lib/product-symbol')
 const lineColor = require('./lib/line-color')
