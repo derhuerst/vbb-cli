@@ -1,7 +1,7 @@
 {
 	"name": "vbb-cli",
 	"description": "A CLI for Berlin & Brandenburg public transport.",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"bin": {
 		"vbb-dep": "./dep.js",
 		"vbb-journey": "./journey.js"
