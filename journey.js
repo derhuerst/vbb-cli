@@ -12,7 +12,12 @@ const productSymbol = require('./lib/product-symbol')
 const lineColor = require('./lib/line-color')
 
 const argv = mri(process.argv.slice(2), {
-	boolean: ['help', 'h', 'version', 'v', 'location', 'l']
+	boolean: [
+		'help', 'h',
+		'version', 'v',
+		'location', 'l',
+		'show-ids'
+	]
 })
 
 if (argv.help || argv.h) {
@@ -28,6 +33,7 @@ Options:
     --products  -p  Allowed transportation types. Default: "all"
                     "all" = "suburban,subway,tram,bus,ferry,express,regional"
     --when      -w  A date & time string like "tomorrow 2 pm". Default: now
+    --show-ids      Show station & journey leg IDs. Default: false
 
 `)
 	process.exit(0)
@@ -46,7 +52,8 @@ const showError = function (err) {
 
 const journeysCli = createJourneysCli(hafas, {
 	productColor, productSymbol,
-	lineColor
+	lineColor,
+	showLocationIds: argv['show-ids'], showJourneyLegIds: argv['show-ids']
 })
 journeysCli({
 	origin: argv._[0],
