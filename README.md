@@ -1,8 +1,8 @@
 # vbb-cli
 
-**A command line client for [Berlin & Brandenburg public transport (VBB)](https://en.wikipedia.org/wiki/Verkehrsverbund_Berlin-Brandenburg).**
+**A command line client for [Berlin & Brandenburg public transport (VBB)](https://en.wikipedia.org/wiki/Verkehrsverbund_Berlin-Brandenburg).** Built on top of [`vbb-hafas`](https://github.com/derhuerst/vbb-hafas).
 
-[![asciicast](https://asciinema.org/a/42117.png)](https://asciinema.org/a/42117)
+[![asciicast](https://asciinema.org/a/239395.png)](https://asciinema.org/a/239395)
 
 [![npm version](https://img.shields.io/npm/v/vbb-cli.svg)](https://www.npmjs.com/package/vbb-cli)
 [![build status](https://img.shields.io/travis/derhuerst/vbb-cli.svg)](https://travis-ci.org/derhuerst/vbb-cli)
@@ -26,10 +26,10 @@ Or just run it using [`npx`](https://npmjs.com/npx).
 vbb-dep [station] [options]
 
 Arguments:
-    station         Station number (like "900000023201") or search string (like "Zoo").
+    station         Station number (like 900000023201) or search string (like "Zoo").
 
 Options:
-    --location  -l  Use current location. OS X only.
+    --location  -l  Use current location. macOS only.
     --duration  -d  Show departures for the next n minutes. Default: 15
     --when      -w  A date & time string like "tomorrow 2 pm". Default: now
     --products  -p  Allowed transportation types.
