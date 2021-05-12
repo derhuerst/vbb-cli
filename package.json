@@ -21,7 +21,7 @@
 	"bugs": "https://github.com/derhuerst/vbb-cli/issues",
 	"license": "ISC",
 	"engines": {
-		"node": ">=8"
+		"node": ">=14"
 	},
 	"files": [
 		"dep.js",
@@ -30,9 +30,9 @@
 	],
 	"dependencies": {
 		"chalk": "^3.0.0",
-		"hafas-cli": "^1.0.0",
+		"hafas-cli": "^2.0.0",
 		"mri": "^1.1.0",
-		"vbb-hafas": "^6.0.0",
+		"vbb-hafas": "^7.0.3",
 		"vbb-line-colors": "^1.0.0",
 		"vbb-util": "^0.10.2"
 	},

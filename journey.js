@@ -53,7 +53,7 @@ const showError = function (err) {
 const journeysCli = createJourneysCli(hafas, {
 	productColor, productSymbol,
 	lineColor,
-	showLocationIds: argv['show-ids'], showJourneyLegIds: argv['show-ids']
+	showLocationIds: argv['show-ids'], showTripIds: argv['show-ids']
 })
 journeysCli({
 	origin: argv._[0],

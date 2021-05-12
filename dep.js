@@ -53,7 +53,7 @@ const showError = function (err) {
 const departuresCli = createDeparturesCli(hafas, {
 	productColor, productSymbol,
 	lineColor,
-	showLocationIds: argv['show-ids'], showJourneyLegIds: argv['show-ids']
+	showLocationIds: argv['show-ids'], showTripIds: argv['show-ids']
 })
 departuresCli({
 	station: argv._[0],
