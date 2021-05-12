@@ -28,7 +28,7 @@
 		"lib"
 	],
 	"dependencies": {
-		"chalk": "^2.3.2",
+		"chalk": "^3.0.0",
 		"hafas-cli": "^1.0.0",
 		"mri": "^1.1.0",
 		"vbb-hafas": "^6.0.0",
