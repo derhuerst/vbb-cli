@@ -2,7 +2,7 @@
 	"preferGlobal": true,
 	"name": "vbb-cli",
 	"description": "A CLI for Berlin & Brandenburg public transport.",
-	"version": "2.0.1",
+	"version": "3.0.0",
 	"bin": {
 		"vbb-dep": "./dep.js",
 		"vbb-journey": "./journey.js"
@@ -29,7 +29,7 @@
 		"lib"
 	],
 	"dependencies": {
-		"chalk": "^3.0.0",
+		"chalk": "^4.1.1",
 		"hafas-cli": "^2.0.0",
 		"mri": "^1.1.0",
 		"vbb-hafas": "^7.0.3",
